@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Events\MessageSent;
 
-abstract class Controller
+class ChatController extends Controller
 {
     public function messageSent(Message $message)
     {
@@ -22,5 +23,7 @@ abstract class Controller
         ]);
 
         broadcast(new MessageSent($message))->toOthers();
+
+        return view('welcome');
     }
 }
