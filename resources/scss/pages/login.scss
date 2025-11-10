@@ -1,5 +1,121 @@
-@use '../base/variables' as *;
+@use '../base/variables' as vars;
+@use '../base/app' as *;
 
-body{
-    background-color: $primary-color;
+html {
+    background: vars.$linear-bg-color-start;
+    height: 100vh;
+    width: 100vw;
+}
+
+body {
+    background: linear-gradient(to bottom right, vars.$linear-bg-color-start,  vars.$linear-bg-color-start, vars.$linear-bg-color-end);
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.container
+{
+    display: flex;
+    flex-direction: column;
+
+    h1
+    {
+        background: linear-gradient(
+            to right,
+            vars.$linear-text-color-start 30%,
+            vars.$linear-text-color-middle 60%,
+            vars.$linear-text-color-end 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-size: 36px;
+        font-weight: bold;
+        line-height: 40px;
+        margin: 0;
+        text-align: center;
+        font-family: "Roboto", sans-serif;
+        margin-bottom: 8px;
+    }
+
+    p {
+        color: rgba(148, 163, 184, 1);
+        font-size: 16px;
+        line-height: 24px;
+        margin: 0;
+        text-align: center;
+        font-family: "Roboto", sans-serif;
+        margin-bottom: 32px;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        gap: 24px;
+        padding: 32px;
+        width: 384px;
+
+        div.form-group
+        {
+            display: flex;
+            flex-direction: column;
+            align-items: normal;
+            width: 100%;
+
+            label {
+                color: rgba(248, 250, 252, 1);
+                font-size: 14px;
+                line-height: 14px;
+                margin: 0;
+                font-family: "Roboto", sans-serif;
+                margin-bottom: 12px;
+                width: 100%;
+            }
+
+            input {
+                font-size: 14px;
+                padding: 10px 13px;
+                width: 100%;
+                border-radius: 14px;
+                border: 1px solid rgba(34, 47, 68, 1);
+                color: rgba(248, 250, 252, 1);
+                background: vars.$linear-bg-color-start;
+                box-sizing: border-box;
+            }
+        }
+
+        button {
+            background: linear-gradient(
+                90deg,
+                vars.$linear-text-color-start,
+                vars.$linear-text-color-middle,
+            );
+            border-radius: 14px;
+            color: rgba(248, 250, 252, 1);
+            font-size: 14px;
+            line-height: 20px;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            box-sizing: border-box;
+        }
+    }
+
+    a
+    {
+        color: rgba(7, 182, 213, 1);
+        font-size: 14px;
+        line-height: 20px;
+        margin: 0;
+        font-family: "Roboto", sans-serif;
+        text-decoration: none;
+
+        &.forgot-password {
+            text-align: end;
+        }
+    }
 }

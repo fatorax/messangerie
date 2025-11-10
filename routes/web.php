@@ -14,8 +14,8 @@ Route::post('/inscription', [AuthController::class, 'register'])->name('register
 Route::get('/connexion', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/connexion', [AuthController::class, 'login'])->name('login');
 
-// Route::get('/mot-de-passe-oublie', [AuthController::class, 'motDePasseOublie'])->name('mot-de-passe-oublie');
-// Route::get('/reinitialiser-mot-de-passe', [AuthController::class, 'reinitialiserMotDePasse'])->name('reinitialiser-mot-de-passe');
+Route::get('/mot-de-passe-oublie', [AuthController::class, 'forgotPassword'])->name('forgot-password');
+Route::get('/reinitialiser-mot-de-passe', [AuthController::class, 'resetPassword'])->name('reset-password');
 
 Route::get('/deconnexion', [AuthController::class, 'logout'])->name('logout');
 
