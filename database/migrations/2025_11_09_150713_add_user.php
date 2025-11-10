@@ -12,6 +12,7 @@ return new class extends Migration {
             $table->string('lastname')->after('firstname');
             $table->dropColumn('name');
             $table->string('avatar')->nullable()->after('email');
+            $table->string('verify_token')->default(null)->after('remember_token')->nullable();
         });
     }
 

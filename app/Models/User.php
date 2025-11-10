@@ -11,11 +11,11 @@ class User extends Authenticatable
     use HasApiTokens, Notifiable;
 
     protected $fillable = [
-        'username', 'firstname', 'lastname', 'email', 'avatar', 'password',
+        'username', 'firstname', 'lastname', 'email', 'avatar', 'password', 'verify_token',
     ];
 
     protected $hidden = [
-        'password', 'remember_token',
+        'password', 'remember_token', 'verify_token',
     ];
 
     public function conversations()

@@ -11,23 +11,43 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+    @if (session('success'))
+        <div class="container">
+            <p class="success">{{ session('success') }}</p>
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="container">
+            <p class="error">{{ session('error') }}</p>
+        </div>
+    @endif
     <div class="container">
-        <h1>Rejouigner le chat</h1>
+        <h1>Bienvenue sur le chat</h1>
         <p>Bienvenue sur le site de {{ config('app.name') }}</p>
         <form method="POST" action="{{ route('login') }}">
             @csrf
             <div class="form-group">
                 <label for="">Email</label>
                 <input type="email" name="email" placeholder="Email">
+                @error('email')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             </div>
             <div class="form-group">
                 <label for="">Mot de passe</label>
                 <input type="password" name="password" placeholder="Mot de passe">
+                @error('password')
+                    <span class="error">{{ $message }}</span>
+                @enderror
             </div>
             <a href="{{ route('forgot-password') }}" class="forgot-password">Mot de passe oublié ?</a>
             <button type="submit">Connexion</button>
         </form>
         <p>Vous n'avez pas de compte ? <a href="{{ route('register') }}">Inscrivez-vous</a></p>
+    </div>
+    <div class="rgpd">
+        <a href="{{ route('mentions-legales') }}">Mentions légales</a>
+        <a href="{{ route('cgu') }}">Conditions générales d'utilisation</a>
     </div>
 </body>
 </html>

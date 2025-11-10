@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Events\MessageSent;
 
-class ChatController extends Controller
+class MessageController extends Controller
 {
     public function messageSent(Message $message)
     {
@@ -25,5 +25,10 @@ class ChatController extends Controller
         broadcast(new MessageSent($message))->toOthers();
 
         return view('welcome');
+    }
+
+    public function dashboard()
+    {
+        return view('chat.dashboard');
     }
 }
