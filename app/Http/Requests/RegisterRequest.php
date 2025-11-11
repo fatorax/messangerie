@@ -29,6 +29,7 @@ class RegisterRequest extends FormRequest
             'email' => 'required|email',
             'password' => ['required', 'string', Password::min(8)->mixedCase()->numbers()->symbols()],
             'password-confirm' => 'required|same:password',
+            'rgpd' => 'required',
         ];
     }
 
@@ -43,6 +44,7 @@ class RegisterRequest extends FormRequest
             'password.required' => 'Le mot de passe est obligatoire',
             'password-confirm.required' => 'La confirmation du mot de passe est obligatoire',
             'password-confirm.same' => 'Les mots de passe ne correspondent pas',
+            'rgpd.required' => 'Vous devez accepter les CGV',
         ];
     }
 }

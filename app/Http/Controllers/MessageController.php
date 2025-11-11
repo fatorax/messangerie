@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Message;
 use App\Events\MessageSent;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -29,6 +30,7 @@ class MessageController extends Controller
 
     public function dashboard()
     {
-        return view('chat.dashboard');
+        $user = Auth::user();
+        return view('chat.dashboard', compact('user'));
     }
 }

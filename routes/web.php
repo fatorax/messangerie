@@ -33,7 +33,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/message-sent', [MessageController::class, 'messageSent'])->name('message-sent');
     Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
     Route::get('/profil', [MessageController::class, 'profil'])->name('profil');
-    Route::get('/parametres', [AuthController::class, 'parametres'])->name('parametres');
+    Route::get('/parametres', [AuthController::class, 'settings'])->name('settings');
 });
 
 // Protégé par admin

@@ -58,6 +58,11 @@
                     <span class="error">{{ $message }}</span>
                 @enderror
             </div>
+            <label for="rgpd">J'accepte les <a href="{{ route('pages.show', ['page' => 'cgv']) }}">Conditions Générales de Vente</a></label>
+            <input type="checkbox" name="rgpd" id="rgpd">
+            @error('rgpd')
+                <span class="error">{{ $message }}</span>
+            @enderror
             <button type="submit">Inscrption</button>
         </form>
         <p>Vous avez déjà un compte ? <a href="{{ route('login') }}">Connexion</a></p>
