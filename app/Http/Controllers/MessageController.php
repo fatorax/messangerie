@@ -4,33 +4,26 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Message;
-use App\Events\MessageSent;
 use Illuminate\Support\Facades\Auth;
+use App\Events\MessageSent;
 
 class MessageController extends Controller
 {
-    public function messageSent(Message $message)
+    public function messageSent(Request $request)
     {
-        // $message = Message::create([
-        //     'conversation_id' => $conversationId,
-        //     'user_id' => auth()->id(),
-        //     'content' => $request->content,
-        // ]);
+        $request->validate([
+            'conversation_id' => 'required|integer',
+            'content' => 'required|string|max:500',
+        ]);
 
         $message = Message::create([
-            'conversation_id' => 1,
-            'user_id' => 1,
-            'content' => "bonjour",
+            'conversation_id' => $request->conversation_id,
+            'user_id' => Auth::id(),
+            'content' => $request->content,
         ]);
 
         broadcast(new MessageSent($message))->toOthers();
 
-        return view('welcome');
-    }
-
-    public function dashboard()
-    {
-        $user = Auth::user();
-        return view('chat.dashboard', compact('user'));
+        return response()->json(['success' => true]);
     }
 }

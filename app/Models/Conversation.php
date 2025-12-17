@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Conversation extends Model
 {
     protected $fillable = [
-        'name', 'is_group', 'creator_id',
+        'name',
+        'type',
+        'created_by',
+        'is_encrypted',
     ];
 
     public function users()

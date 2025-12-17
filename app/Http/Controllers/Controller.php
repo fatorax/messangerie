@@ -7,20 +7,5 @@ use App\Events\MessageSent;
 
 abstract class Controller
 {
-    public function messageSent(Message $message)
-    {
-        // $message = Message::create([
-        //     'conversation_id' => $conversationId,
-        //     'user_id' => auth()->id(),
-        //     'content' => $request->content,
-        // ]);
 
-        $message = Message::create([
-            'conversation_id' => 1,
-            'user_id' => 1,
-            'content' => "bonjour",
-        ]);
-
-        broadcast(new MessageSent($message))->toOthers();
-    }
 }
