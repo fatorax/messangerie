@@ -14,7 +14,11 @@ class ChannelController extends Controller
         $user = Auth::user();
         $channelsPublic = Conversation::where('type', 'global')->get();
         $conversationView = Conversation::where('id', 1)->first();
-        $messages = $conversationView->messages()->orderBy('created_at', 'desc')->get();
+        $messages = $conversationView->messages()
+            ->orderBy('created_at', 'desc')
+            ->limit(50)
+            ->get()
+            ->reverse();
         if ($conversationView->type == 'global') {
             $totalMembers = User::count();
         }else{
@@ -38,7 +42,11 @@ class ChannelController extends Controller
         $user = Auth::user();
         $channelsPublic = Conversation::where('type', 'global')->get();
         $conversationView = Conversation::where('id', $id)->first();
-        $messages = $conversationView->messages()->orderBy('created_at', 'desc')->get();
+        $messages = $conversationView->messages()
+            ->orderBy('created_at', 'desc')
+            ->limit(50)
+            ->get()
+            ->reverse();
         if ($conversationView->type == 'global') {
             $totalMembers = User::count();
         }else{

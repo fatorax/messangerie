@@ -25,3 +25,8 @@ Broadcast::channel('private-conversation.{conversationId}', function ($user, $co
     if (! $user) return false;
     return $isMember;
 });
+
+Broadcast::channel('chat.{conversationId}', function ($user, $conversationId) {
+    // Ici tu peux mettre une vraie vérification d'appartenance à la conversation
+    return true; // Pour test, autorise tout
+});
