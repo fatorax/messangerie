@@ -1,6 +1,8 @@
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
+import Swal from 'sweetalert2';
 
+window.Swal = Swal;
 window.Pusher = Pusher;
 
 window.Echo = new Echo({
