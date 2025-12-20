@@ -7,6 +7,7 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RGPDController;
 use App\Http\Controllers\ChannelController;
+use App\Http\Controllers\UserController;
 
 // Authentification
 Route::get('/inscription', [AuthController::class, 'showRegister'])->name('register');
@@ -45,7 +46,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/message-sent', [MessageController::class, 'messageSent'])->name('message-sent');
     Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
     Route::get('/profil', [MessageController::class, 'profil'])->name('profil');
-    Route::get('/parametres', [AuthController::class, 'settings'])->name('settings');
+    Route::get('/parametres', [UserController::class, 'settings'])->name('settings');
 });
 
 // Protégé par admin

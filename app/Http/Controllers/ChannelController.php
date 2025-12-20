@@ -160,6 +160,7 @@ class ChannelController extends Controller
         return response()->json([
             'success' => true,
             'channel' => $channel,
+            'user' => $user,
         ]);
     }
 }

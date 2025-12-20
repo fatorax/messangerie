@@ -3,14 +3,10 @@
 
 html {
     background: vars.$linear-bg-color-start;
-    height: 100vh;
-    width: 100vw;
 }
 
 body {
     background: linear-gradient(to bottom right, vars.$linear-bg-color-start,  vars.$linear-bg-color-start, vars.$linear-bg-color-end);
-    height: 100vh;
-    width: 100vw;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -21,6 +17,9 @@ div.container
 {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 
     h1
     {
@@ -49,13 +48,11 @@ div.container
         margin: 0;
         text-align: center;
         font-family: "Roboto", sans-serif;
-        margin-bottom: 32px;
     }
 
     form {
         display: flex;
         flex-direction: column;
-        margin: auto;
         gap: 24px;
         padding: 32px;
         width: 384px;
@@ -182,6 +179,57 @@ div.rgpd
         &:hover
         {
             text-decoration: underline;
+        }
+    }
+}
+
+// RGPD
+div.container.rgpd
+{
+    position: absolute;
+    top: 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    width: 80vw;
+    height: fit-content;
+
+    h2
+    {
+        color: rgba(248, 250, 252, 1);
+        font-size: 36px;
+        font-weight: bold;
+        line-height: 40px;
+        margin: 0;
+        font-family: "Roboto", sans-serif;
+        margin-bottom: 8px;
+        width: 100%;
+        text-wrap: wrap;
+    }
+
+    pre
+    {
+        color: rgba(148, 163, 184, 1);
+        font-size: 16px;
+        line-height: 24px;
+        margin: 0;
+        font-family: "Roboto", sans-serif;
+        width: 100%;
+        text-wrap: wrap;
+    }
+
+    a {
+        color: rgba(248, 250, 252, 1);
+        font-size: 16px;
+        line-height: 24px;
+        width: fit-content;
+        text-wrap: wrap;
+
+        &:hover
+        {
+            text-decoration: none;
+            color: rgba(7, 182, 213, 1);
         }
     }
 }

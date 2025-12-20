@@ -21,7 +21,6 @@ export default defineConfig({
                 'resources/js/dashboard/CreateChannelModal.js',
                 'resources/js/dashboard/EditChannelModal.js',
                 'resources/js/dashboard/DeleteChannelModal.js',
-                'resources/js/dashboard/sendMessageChannel.js',
                 'resources/js/dashboard/searchUserAddModal.js',
                 'resources/js/app.js',
             ],
