@@ -69,6 +69,7 @@ class AuthController extends Controller
     {
         $user = User::where('email', $request->email)->first();
 
+        
         if ($user && $user->verify_token == $request->hash) {
             Auth::login($user);
             return redirect()->route('dashboard');

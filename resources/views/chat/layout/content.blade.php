@@ -7,7 +7,7 @@
                 </div>
                 <div class="chat-box-informations">
                     <div class="chat-box-informations-name">
-                        <h2>{{ $user->username }}</h2>
+                        <h2>{{ $message->user->username }}</h2>
                         <p class="date">{{ $message->created_at->format('d/m/Y H:i') }}</p>
                     </div>
                     <div class="chat-box-informations-message">

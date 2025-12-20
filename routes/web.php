@@ -7,8 +7,6 @@ use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RGPDController;
 use App\Http\Controllers\ChannelController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 // Authentification
 Route::get('/inscription', [AuthController::class, 'showRegister'])->name('register');
@@ -53,48 +51,4 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 // Protégé par admin
 Route::group(['middleware' => ['auth', 'verified', 'admin']], function () {
     Route::get('/admin', [AdminController::class, 'admin'])->name('admin');
-});
-
-// Debug helper: return authenticated user (temporary)
-// Debug helper: show current session id and received cookies
-Route::get('/__session', function () {
-    $user = auth()->user();
-    return response()->json([
-        'session_id' => session()->getId(),
-        'cookies' => request()->cookies->all(),
-        'authenticated' => (bool) $user,
-        'user_id' => $user->id ?? null,
-    ]);
-});
-
-// Temporary debug route to wrap broadcasting auth with extra logging
-Route::match(['get','post'], '/debug-broadcasting/auth', function (Request $request) {
-    try {
-        Log::info('debug broadcasting auth request', [
-            'cookies' => $request->cookies->all(),
-            'session_id' => $request->session()->getId(),
-            'user_id' => optional($request->user())->id,
-            'channel_name' => $request->input('channel_name'),
-            'socket_id' => $request->input('socket_id'),
-        ]);
-    } catch (\Throwable $e) {
-        Log::error('failed to log debug broadcasting auth', ['error' => $e->getMessage()]);
-    }
-
-    return app(\Illuminate\Broadcasting\BroadcastController::class)->authenticate($request);
-});
-
-
-Route::get('/__whoami', function () {
-    $user = auth()->user();
-    if (! $user) return response()->json(['authenticated' => false], 401);
-    return response()->json(['authenticated' => true, 'id' => $user->id, 'email' => $user->email ?? null]);
-});
-
-// Debug helper: is authenticated user member of a conversation?
-Route::get('/__is_member/{conversationId}', function ($conversationId) {
-    $user = auth()->user();
-    if (! $user) return response()->json(['authenticated' => false], 401);
-    $isMember = $user->conversations()->where('conversations.id', $conversationId)->exists();
-    return response()->json(['authenticated' => true, 'conversation_id' => (int) $conversationId, 'is_member' => (bool) $isMember]);
 });
