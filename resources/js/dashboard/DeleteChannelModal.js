@@ -1,37 +1,64 @@
 window.deleteChannel = async function (id) {
 
     if (!id || id == 1) {
+        alert('ID de canal invalide.');
         return;
     }
 
-    try {
-        const response = await fetch('/channels/delete', {
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ id }),
-        });
-
-        if (!response.ok) {
-            // const errorData = await response.json();
-
-            // if (errorData.errors?.name) {
-            //     errorSpan.textContent = errorData.errors.name[0];
-            // } else {
-            //     errorSpan.textContent = errorData.message || `Erreur HTTP ${response.status}`;
-            // }
-
-            // Message d'erreur
-
-            return;
-        }
-
-        window.location.replace('/channels');
-
-    } catch (error) {
-        // Message d'erreur
+    if (typeof Swal === 'undefined') {
+        alert('La librairie SweetAlert2 est requise pour la confirmation.');
+        return;
     }
+
+    Swal.fire({
+        title: "Êtes-vous sûr de vouloir supprimer ce channel ?",
+        text: "Cette action est irréversible !",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Oui, supprimer",
+        cancelButtonText: "Annuler",
+        reverseButtons: true
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const response = await fetch('/channels/delete', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ id }),
+                });
+
+                if (!response.ok) {
+                    let errorMsg = 'Erreur lors de la suppression.';
+                    try {
+                        const errorData = await response.json();
+                        errorMsg = errorData.message || errorMsg;
+                    } catch {}
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Erreur',
+                        text: errorMsg
+                    });
+                    return;
+                }
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Succès !',
+                    text: 'Le channel a été supprimé avec succès.'
+                }).then(() => {
+                    window.location.replace('/channels');
+                });
+            } catch (error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Erreur',
+                    text: 'Une erreur est survenue lors de la suppression.'
+                });
+            }
+        }
+    });
 };

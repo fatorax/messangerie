@@ -62,10 +62,6 @@ window.searchUserAddModal = async function () {
             img.src = 'https://picsum.photos/seed/picsum/200/300';
             divGlobal.appendChild(img);
             const div = document.createElement('div');
-            if (data.user.is_connected == true) {
-                div.classList.add('connected');
-                div.classList.add('online');
-            }
             divGlobal.appendChild(div);
             a.appendChild(divGlobal);
             const p = document.createElement('p');

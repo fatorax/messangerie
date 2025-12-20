@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Conversation;
 use App\Models\User;
+use App\Events\ConversationDeleted;
 
 class ChannelController extends Controller
 {
@@ -40,8 +41,17 @@ class ChannelController extends Controller
     public function viewChannel(int $id)
     {
         $user = Auth::user();
+        $conversationView = Conversation::find($id);
+
+        if (!$conversationView) {
+            return redirect('/channels')->with('error', "Ce channel n'existe pas ou a été supprimé.");
+        }
+
+        if ($conversationView->type == 'private' && !$conversationView->users->contains($user->id)) {
+            return redirect('/channels')->with('error', "Vous n'avez pas accès à ce channel.");
+        }
+
         $channelsPublic = Conversation::where('type', 'global')->get();
-        $conversationView = Conversation::where('id', $id)->first();
         $messages = $conversationView->messages()
             ->orderBy('created_at', 'desc')
             ->limit(50)
@@ -49,7 +59,7 @@ class ChannelController extends Controller
             ->reverse();
         if ($conversationView->type == 'global') {
             $totalMembers = User::count();
-        }else{
+        } else {
             $totalMembers = $conversationView->users->count();
         }
         $channelsPrivate = $user->conversations()
@@ -105,20 +115,14 @@ class ChannelController extends Controller
 
     public function deletechannels(Request $request)
     {
-        $validated = $request->validate(['id' => 'required|integer']);
-        if ($validated['id'] == 1) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Impossible de supprimer ce channel',
-            ]);
-        }
-        $channel = Conversation::find($validated['id']);
-        $channel->delete();
+        $id = $request->input('id');
+        $conversation = Conversation::findOrFail($id);
 
-        return response()->json([
-            'success' => true,
-            'channel' => $channel,
-        ]);
+        $conversation->delete();
+
+        broadcast(new ConversationDeleted($id))->toOthers();
+
+        return response()->json(['success' => true]);
     }
 
     public function searchUserAdd(Request $request)
@@ -163,4 +167,6 @@ class ChannelController extends Controller
             'user' => $user,
         ]);
     }
+
+    
 }

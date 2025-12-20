@@ -47,6 +47,10 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
     Route::get('/profil', [MessageController::class, 'profil'])->name('profil');
     Route::get('/parametres', [UserController::class, 'settings'])->name('settings');
+    Route::post('/parametres', [UserController::class, 'updateSettings'])->name('user.settings.update');
+    Route::get('/parametres/mot-de-passe', [UserController::class, 'changePassword'])->name('user.password.change');
+    Route::post('/parametres/mot-de-passe', [UserController::class, 'updatePassword'])->name('user.password.update');
+    Route::get('/parametres/delete', [UserController::class, 'deleteAccount'])->name('user.delete');
 });
 
 // Protégé par admin

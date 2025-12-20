@@ -36,9 +36,9 @@
                         $otherUser = $channel->users->first();
                     @endphp
                     <a href="{{ route('channels.view', $channel->id) }}" @class(['link', 'active' => $channel->id == $conversationView->id])>
-                        <div class="picture">
+                        <div class="picture" data-user-id="{{ $otherUser->id }}">
                             <img src="https://picsum.photos/seed/picsum/200/300" alt="Image de profil">
-                            {{-- <div class="connected online"></div> --}}
+                            <!-- Le rond de connexion sera géré dynamiquement par JS -->
                         </div>
                         <p>{{ $otherUser->username }}</p>
                     </a>

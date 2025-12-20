@@ -1,6 +1,10 @@
 window.openeditChannelModal = function () {
-    document.querySelector('.editChannelModal').classList.add('active');
-    document.querySelector('.editChannelModal form').reset();
+    const modal = document.querySelector('.editChannelModal');
+    if (modal) {
+        modal.classList.add('active');
+        const form = modal.querySelector('form');
+        if (form) form.reset();
+    }
 };
 
 window.closeEditChannelModal = function () {

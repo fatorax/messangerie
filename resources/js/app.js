@@ -87,3 +87,49 @@ window.Echo.private(`chat.${conversationId}`)
         chatBox.scrollTop = chatBox.scrollHeight;
     });
 
+// Gestion dynamique du rond de connexion dans la nav
+function setOnlineStatus(userId, online) {
+    const pic = document.querySelector('.picture[data-user-id="' + userId + '"]');
+    if (!pic) return;
+    let dot = pic.querySelector('.connected');
+    if (online) {
+        if (!dot) {
+            dot = document.createElement('div');
+            dot.className = 'connected online';
+            dot.setAttribute('data-user-id', userId);
+            pic.appendChild(dot);
+        } else {
+            dot.classList.add('online');
+        }
+    } else {
+        if (dot) dot.remove();
+    }
+}
+
+if (window.Echo) {
+    window.Echo.join('online')
+        .here((users) => {
+            console.log('Utilisateurs en ligne :', users);
+            document.querySelectorAll('.picture[data-user-id]').forEach(pic => {
+                const userId = pic.getAttribute('data-user-id');
+                setOnlineStatus(userId, users.some(u => String(u.id) === String(userId)));
+            });
+        })
+        .joining((user) => {
+            console.log('Utilisateur en ligne :', user);
+            setOnlineStatus(user.id, true);
+        })
+        .leaving((user) => {
+            console.log('Utilisateur hors ligne :', user);
+            setOnlineStatus(user.id, false);
+        });
+}
+
+window.Echo.private(`conversation.deleted.${conversationId}`)
+    .listen('.conversation.deleted', () => {
+        const link = document.querySelector(`[href$='/channels/${conversationId}']`);
+        if (link) {
+            link.remove();
+        }
+        window.location.href = '/channels';
+    });
