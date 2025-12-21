@@ -75,7 +75,8 @@ window.Echo.private(`chat.${conversationId}`)
         const msgContainer = document.createElement('div');
         msgContainer.className = 'chat-box-informations-message';
         const p = document.createElement('p');
-        p.textContent = content;
+        // Affiche les retours à la ligne du textarea
+        p.innerHTML = (content || '').replace(/\n/g, '<br>');
         msgContainer.appendChild(p);
         infoDiv.appendChild(nameDiv);
         infoDiv.appendChild(msgContainer);

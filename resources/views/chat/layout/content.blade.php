@@ -11,7 +11,7 @@
                         <p class="date">{{ $message->created_at->format('d/m/Y H:i') }}</p>
                     </div>
                     <div class="chat-box-informations-message">
-                        <p>{{ $message->content }}</p>
+                        <p>{!! nl2br(e($message->content)) !!}</p>
                     </div>
                 </div>
             </div>
