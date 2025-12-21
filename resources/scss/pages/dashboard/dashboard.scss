@@ -17,6 +17,18 @@ body {
     align-items: center;
 }
 
+.swal2-popup {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+.swal2-title {
+    font-size: 24px;
+    font-weight: 600;
+}
+.swal2-html-container {
+    font-size: 14px;
+}
+
 nav
 {
     position: fixed;
@@ -354,6 +366,32 @@ nav
                 &:hover
                 {
                     color: rgba(7, 182, 213, 1);
+                }
+            }
+
+            form
+            {
+                button
+                {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    background: transparent;
+                    border: none;
+                    color: rgba(248, 250, 252, 1);
+                    padding: 8px;
+
+                    svg
+                    {
+                        width: 20px;
+                        height: 20px;
+                    }
+
+                    &:hover
+                    {
+                        color: rgba(249, 78, 180, 1);
+                    }
                 }
             }
         }

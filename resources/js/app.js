@@ -26,7 +26,6 @@ if (metaConv) {
 
 window.Echo.private(`chat.${conversationId}`)
     .listen('.MessageSent', (e) => {
-        console.log('Message reçu :', e);
         // Affichage du message dans le chat si la structure du payload correspond
         const chatBox = document.getElementById('chat-box');
         if (!chatBox) return;
@@ -86,6 +85,9 @@ window.Echo.private(`chat.${conversationId}`)
         chatBox.scrollTop = chatBox.scrollHeight;
     });
 
+// Liste globale des utilisateurs en ligne
+let onlineUsers = [];
+
 // Gestion dynamique des connexions des utilisateurs
 function setOnlineStatus(userId, online) {
     const pic = document.querySelector('.picture[data-user-id="' + userId + '"]');
@@ -108,18 +110,18 @@ function setOnlineStatus(userId, online) {
 if (window.Echo) {
     window.Echo.join('online')
         .here((users) => {
-            console.log('Utilisateurs en ligne :', users);
+            onlineUsers = users.map(u => u.id);
             document.querySelectorAll('.picture[data-user-id]').forEach(pic => {
                 const userId = pic.getAttribute('data-user-id');
                 setOnlineStatus(userId, users.some(u => String(u.id) === String(userId)));
             });
         })
         .joining((user) => {
-            console.log('Utilisateur en ligne :', user);
+            onlineUsers.push(user.id);
             setOnlineStatus(user.id, true);
         })
         .leaving((user) => {
-            console.log('Utilisateur hors ligne :', user);
+            onlineUsers = onlineUsers.filter(id => String(id) !== String(user.id));
             setOnlineStatus(user.id, false);
         });
 }
@@ -132,9 +134,8 @@ if (currentUserId) {
     window.Echo.private(`user.${currentUserId}`)
         .listen('.conversation.add', (data) => {
             const list = document.querySelector('#channelsPrivateList');
-            if (list && data) {
-                const otherUser = data.conversation.users.find(u => u.id !== currentUserId);
-                console.log('Ajout de la conversation :', otherUser);
+            if (list && data && data.conversation && data.users) {
+                const otherUser = data.users.find(u => u.id !== currentUserId);
                 const a = document.createElement('a');
                 a.href = '/channels/' + data.conversation.id;
                 a.classList.add('link');
@@ -144,10 +145,15 @@ if (currentUserId) {
                 img.src = 'https://picsum.photos/seed/picsum/200/300';
                 divGlobal.appendChild(img);
                 const div = document.createElement('div');
+                div.classList.add('connected');
+                // Ajoute la classe 'online' seulement si l'utilisateur est connecté
+                if (onlineUsers.some(id => String(id) === String(otherUser.id))) {
+                    div.classList.add('online');
+                }
                 divGlobal.appendChild(div);
                 a.appendChild(divGlobal);
                 const p = document.createElement('p');
-                p.textContent = (data.conversation && data.conversation.name) ? data.conversation.name : 'Nouvelle conversation';
+                p.textContent = otherUser.username;
                 a.appendChild(p);
                 list.appendChild(a);
             }

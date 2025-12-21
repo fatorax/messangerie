@@ -58,8 +58,10 @@
                     <span class="error">{{ $message }}</span>
                 @enderror
             </div>
-            <label for="rgpd">J'accepte les <a href="{{ route('cgu') }}">Conditions Générales d'utilisation</a></label>
-            <input type="checkbox" name="rgpd" id="rgpd">
+            <section class="rgpd-accept">
+                <input type="checkbox" name="rgpd" id="rgpd">
+                <label for="rgpd">J'accepte les <a href="{{ route('cgu') }}">Conditions Générales d'utilisation</a></label>
+            </section>
             @error('rgpd')
                 <span class="error">{{ $message }}</span>
             @enderror

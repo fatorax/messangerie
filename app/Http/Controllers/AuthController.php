@@ -103,7 +103,7 @@ class AuthController extends Controller
                 ]
             );
             Mail::to($user->email)->send(new ForgotPassword($user->email, $token));
-            return redirect()->route('forgot-password')->with('success', 'Un email vous a été envoyé pour vous permettre de réinitialiser votre mot de passe');
+            return redirect()->route('login')->with('success', 'Un email vous a été envoyé pour vous permettre de réinitialiser votre mot de passe');
         }
     }
 

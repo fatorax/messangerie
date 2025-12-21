@@ -13,6 +13,18 @@ body {
     align-items: center;
 }
 
+.swal2-popup {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+}
+.swal2-title {
+    font-size: 24px;
+    font-weight: 600;
+}
+.swal2-html-container {
+    font-size: 14px;
+}
+
 div.container
 {
     display: flex;
@@ -146,13 +158,32 @@ div.container
         font-family: "Roboto", sans-serif;
         text-decoration: none;
 
-        &.forgot-password {
-            text-align: end;
-        }
-
         &:hover
         {
             text-decoration: underline;
+        }
+    }
+
+    section.rgpd-accept
+    {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+
+        label
+        {
+            color: rgba(248, 250, 252, 1);
+            font-size: 14px;
+            line-height: 20px;
+            margin: 0;
+            font-family: "Roboto", sans-serif;
+        }
+
+        input[type="checkbox"]
+        {
+            width: 16px;
+            height: 16px;
         }
     }
 }

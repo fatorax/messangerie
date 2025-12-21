@@ -9,17 +9,27 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
-    @if (session('success'))
-        <div class="container">
-            <p class="success">{{ session('success') }}</p>
-        </div>
+    @if(session('success'))
+        <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Succès !',
+            text: "{{ session('success') }}",
+        });
+        </script>
     @endif
-    @if (session('error'))
-        <div class="container">
-            <p class="error">{{ session('error') }}</p>
-        </div>
+
+    @if(session('error'))
+        <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Erreur !',
+            text: "{{ session('error') }}",
+        });
+        </script>
     @endif
     <div class="container">
         <h1>Bienvenue sur le chat</h1>
