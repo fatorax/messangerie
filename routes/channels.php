@@ -38,25 +38,7 @@ Broadcast::channel('online', function ($user) {
     ];
 });
 
-Broadcast::channel('conversation.deleted.{id}', function ($user, $conversationId) {
-    try {
-        $userId = $user?->id ?? null;
-        $isMember = false;
-        $conversation = Conversation::find($conversationId);
-        if ($conversation->type == 'global') {
-            $isMember = true;
-        } else {
-            if ($user) {
-                $isMember = (bool) $user->conversations()->where('conversations.id', $conversationId)->exists();
-                Log::info('Broadcast auth attempt', ['user_id' => $userId, 'conversation_id' => $conversationId, 'is_member' => $isMember]);
-            }
-        }
-    } catch (\Throwable $e) {
-        Log::error('Broadcast auth check failed', ['error' => $e->getMessage(), 'conversation_id' => $conversationId]);
-        return false;
-    }
-    
-    Log::info('Broadcast auth attempt', ['user_id' => $userId, 'conversation_id' => $conversationId, 'is_member' => $isMember]);
-    if (! $user) return false;
-    return $isMember;
+// Autorisation pour le canal privé user.{id}
+Broadcast::channel('user.{id}', function ($user, $id) {
+    return (int) $user->id === (int) $id;
 });

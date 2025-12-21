@@ -51,23 +51,6 @@ window.editChannel = async function () {
         form.reset();
         closeChannelModal();
 
-        const list = document.querySelector('#channelsPublicList');
-        if (list && data.channel) {
-            const a = document.createElement('a');
-            a.href = '/channels/' + data.channel.id;
-            a.classList.add('link');
-            const div = document.createElement('div');
-            div.classList.add('picture');
-            const img = document.createElement('img');
-            img.src = 'https://picsum.photos/seed/picsum/200/300';
-            div.appendChild(img);
-            a.appendChild(div);
-            const p = document.createElement('p');
-            p.textContent = data.channel.name;
-            a.appendChild(p);
-            list.appendChild(a);
-        }
-
     } catch (error) {
         errorName.classList.remove('hidden');
         errorName.textContent = 'Une erreur est survenue lors de la création du canal.';

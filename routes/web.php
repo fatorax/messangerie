@@ -23,8 +23,6 @@ Route::post('/mot-de-passe-oublie', [AuthController::class, 'forgotPassword'])->
 Route::get('/reinitialiser-mot-de-passe/{email}/{token}', [AuthController::class, 'showResetPassword'])->name('reset-password');
 Route::post('/reinitialiser-mot-de-passe/{email}/{token}', [AuthController::class, 'resetPassword'])->name('reset-password');
 
-Route::get('/deconnexion', [AuthController::class, 'logout'])->name('logout');
-
 Route::get('/cgu', [RGPDController::class, 'cgu'])->name('cgu');
 Route::get('/mentions-legales', [RGPDController::class, 'mentionsLegales'])->name('mentions-legales');
 Route::get('/404', [RGPDController::class, 'page404'])->name('404');
@@ -51,6 +49,8 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/parametres/mot-de-passe', [UserController::class, 'changePassword'])->name('user.password.change');
     Route::post('/parametres/mot-de-passe', [UserController::class, 'updatePassword'])->name('user.password.update');
     Route::get('/parametres/delete', [UserController::class, 'deleteAccount'])->name('user.delete');
+
+    Route::post('/deconnexion', [AuthController::class, 'logout'])->name('logout');
 });
 
 // Protégé par admin

@@ -12,8 +12,6 @@ window.Echo = new Echo({
     forceTLS: true
 });
 
-
-
 // Récupère l'ID de la conversation dynamiquement depuis une balise meta ou un attribut data
 let conversationId = 1;
 const metaConv = document.querySelector('meta[name="conversation-id"]');
@@ -25,8 +23,6 @@ if (metaConv) {
         conversationId = el.dataset.conversationId;
     }
 }
-
-console.log('Écoute des messages pour la conversation ID : ', conversationId);
 
 window.Echo.private(`chat.${conversationId}`)
     .listen('.MessageSent', (e) => {
@@ -89,7 +85,7 @@ window.Echo.private(`chat.${conversationId}`)
         chatBox.scrollTop = chatBox.scrollHeight;
     });
 
-// Gestion dynamique du rond de connexion dans la nav
+// Gestion dynamique des connexions des utilisateurs
 function setOnlineStatus(userId, online) {
     const pic = document.querySelector('.picture[data-user-id="' + userId + '"]');
     if (!pic) return;
@@ -127,11 +123,48 @@ if (window.Echo) {
         });
 }
 
-window.Echo.private(`conversation.deleted.${conversationId}`)
-    .listen('.conversation.deleted', () => {
-        const link = document.querySelector(`[href$='/channels/${conversationId}']`);
-        if (link) {
-            link.remove();
-        }
-        window.location.href = '/channels';
-    });
+// Suppression dynamique d'une conversation
+const metaUser = document.querySelector('meta[name="current-user-id"]');
+const currentUserId = metaUser ? metaUser.content : null;
+// Ajout dynamique d'une conversation
+if (currentUserId) {
+    window.Echo.private(`user.${currentUserId}`)
+        .listen('.conversation.add', (data) => {
+            const list = document.querySelector('#channelsPrivateList');
+            if (list && data) {
+                const otherUser = data.conversation.users.find(u => u.id !== currentUserId);
+                console.log('Ajout de la conversation :', otherUser);
+                const a = document.createElement('a');
+                a.href = '/channels/' + data.conversation.id;
+                a.classList.add('link');
+                const divGlobal = document.createElement('div');
+                divGlobal.classList.add('picture');
+                const img = document.createElement('img');
+                img.src = 'https://picsum.photos/seed/picsum/200/300';
+                divGlobal.appendChild(img);
+                const div = document.createElement('div');
+                divGlobal.appendChild(div);
+                a.appendChild(divGlobal);
+                const p = document.createElement('p');
+                p.textContent = (data.conversation && data.conversation.name) ? data.conversation.name : 'Nouvelle conversation';
+                a.appendChild(p);
+                list.appendChild(a);
+            }
+        });
+}
+
+if (currentUserId) {
+    window.Echo.private(`user.${currentUserId}`)
+        .listen('.conversation.deleted', (data) => {
+            if (data && data.conversationId) {
+                const link = document.querySelector(`[href$='/channels/${data.conversationId}']`);
+                if (link) {
+                    link.remove();
+                }
+                // Si on est sur la page du channel supprimé, on redirige
+                if (typeof conversationId !== 'undefined' && String(conversationId) === String(data.conversationId)) {
+                    window.location.href = '/channels';
+                }
+            }
+        });
+}

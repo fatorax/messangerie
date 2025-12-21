@@ -51,25 +51,6 @@ window.searchUserAddModal = async function () {
 
         closeSearchUserAddModal();
 
-        const list = document.querySelector('#channelsPrivateList');
-        if (list && data.channel) {
-            const a = document.createElement('a');
-            a.href = '/channels/' + data.channel.id;
-            a.classList.add('link');
-            const divGlobal = document.createElement('div');
-            divGlobal.classList.add('picture');
-            const img = document.createElement('img');
-            img.src = 'https://picsum.photos/seed/picsum/200/300';
-            divGlobal.appendChild(img);
-            const div = document.createElement('div');
-            divGlobal.appendChild(div);
-            a.appendChild(divGlobal);
-            const p = document.createElement('p');
-            p.textContent = data.user.username;
-            a.appendChild(p);
-            list.appendChild(a);
-        }
-
     } catch (error) {
         errorName.classList.remove('hidden');
         errorName.textContent = 'Une erreur est survenue lors de la création du canal.';

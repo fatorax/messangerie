@@ -17,13 +17,11 @@ class MessageSent implements ShouldBroadcastNow
 
     public function __construct(Message $message)
     {
-        // ensure the user relation is available in the broadcast payload
         $this->message = $message->load('user');
     }
 
     public function broadcastOn()
     {
-        // Diffuse sur le channel privé de la conversation (chat.{conversationId})
         return new PrivateChannel('chat.' . $this->message->conversation_id);
     }
 

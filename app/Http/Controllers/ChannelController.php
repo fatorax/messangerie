@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Conversation;
 use App\Models\User;
 use App\Events\ConversationDeleted;
+use App\Events\ConversationCreate;
+use Illuminate\Support\Facades\Log;
 
 class ChannelController extends Controller
 {
@@ -88,6 +90,8 @@ class ChannelController extends Controller
             'is_encrypted' => false,
         ]);
 
+        event(new ConversationCreate($channel));
+
         return response()->json([
             'success' => true,
             'channel' => $channel,
@@ -118,9 +122,12 @@ class ChannelController extends Controller
         $id = $request->input('id');
         $conversation = Conversation::findOrFail($id);
 
+        // Récupère les IDs des membres de la conversation
+        $userIds = $conversation->users()->pluck('users.id')->toArray();
+
         $conversation->delete();
 
-        broadcast(new ConversationDeleted($id))->toOthers();
+        broadcast(new \App\Events\ConversationDeleted($id, $userIds));
 
         return response()->json(['success' => true]);
     }
@@ -160,6 +167,10 @@ class ChannelController extends Controller
             Auth::id() => ['role' => 'admin'],
             $user->id => ['role' => 'member'],
         ]);
+
+        // Diffuse uniquement aux membres du channel privé
+        $users = [$user, Auth::user()];
+        event(new ConversationCreate($channel, $users));
 
         return response()->json([
             'success' => true,
