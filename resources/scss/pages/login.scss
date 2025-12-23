@@ -121,6 +121,26 @@ div.container
                     color: #664d03;
                 }
             }
+
+            div.input
+            {
+                position: relative;
+
+                svg
+                {
+                    position: absolute;
+                    right: 13px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    cursor: pointer;
+                    color: rgba(148, 163, 184, 1);
+
+                    &.hidden
+                    {
+                        display: none;
+                    }
+                }
+            }
         }
 
         button {

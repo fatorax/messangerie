@@ -126,7 +126,6 @@ if (window.Echo) {
         });
 }
 
-// Suppression dynamique d'une conversation
 const metaUser = document.querySelector('meta[name="current-user-id"]');
 const currentUserId = metaUser ? metaUser.content : null;
 // Ajout dynamique d'une conversation
@@ -146,7 +145,6 @@ if (currentUserId) {
                 divGlobal.appendChild(img);
                 const div = document.createElement('div');
                 div.classList.add('connected');
-                // Ajoute la classe 'online' seulement si l'utilisateur est connecté
                 if (onlineUsers.some(id => String(id) === String(otherUser.id))) {
                     div.classList.add('online');
                 }

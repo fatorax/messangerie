@@ -12,6 +12,7 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     @vite([
         'resources/scss/pages/dashboard/dashboard.scss',
+        'resources/js/app.js',
     ])
 </head>
 <body>
