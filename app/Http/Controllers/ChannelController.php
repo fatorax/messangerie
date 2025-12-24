@@ -90,7 +90,7 @@ class ChannelController extends Controller
             'is_encrypted' => false,
         ]);
 
-        event(new ConversationCreate($channel));
+        event(new ConversationCreate($channel, User::all()->pluck('id')->toArray()));
 
         return response()->json([
             'success' => true,

@@ -132,28 +132,49 @@ const currentUserId = metaUser ? metaUser.content : null;
 if (currentUserId) {
     window.Echo.private(`user.${currentUserId}`)
         .listen('.conversation.add', (data) => {
-            const list = document.querySelector('#channelsPrivateList');
-            if (list && data && data.conversation && data.users) {
-                const otherUser = data.users.find(u => u.id !== currentUserId);
-                const a = document.createElement('a');
-                a.href = '/channels/' + data.conversation.id;
-                a.classList.add('link');
-                const divGlobal = document.createElement('div');
-                divGlobal.classList.add('picture');
-                const img = document.createElement('img');
-                img.src = 'https://picsum.photos/seed/picsum/200/300';
-                divGlobal.appendChild(img);
-                const div = document.createElement('div');
-                div.classList.add('connected');
-                if (onlineUsers.some(id => String(id) === String(otherUser.id))) {
-                    div.classList.add('online');
+            console.log(data);
+            if (data && data.conversation && data.users) {
+                if(data.conversation.type == 'global'){
+                    const list = document.querySelector('#channelsPublicList');
+                    const otherUser = data.users.find(u => u.id !== currentUserId);
+                    const a = document.createElement('a');
+                    a.href = '/channels/' + data.conversation.id;
+                    a.classList.add('link');
+                    const divGlobal = document.createElement('div');
+                    divGlobal.classList.add('picture');
+                    const img = document.createElement('img');
+                    img.src = 'https://picsum.photos/seed/picsum/200/300';
+                    divGlobal.appendChild(img);
+                    const div = document.createElement('div');
+                    divGlobal.appendChild(div);
+                    a.appendChild(divGlobal);
+                    const p = document.createElement('p');
+                    p.textContent = data.conversation.name;
+                    a.appendChild(p);
+                    list.appendChild(a);
+                }else{
+                    const list = document.querySelector('#channelsPrivateList');
+                    const otherUser = data.users.find(u => u.id !== currentUserId);
+                    const a = document.createElement('a');
+                    a.href = '/channels/' + data.conversation.id;
+                    a.classList.add('link');
+                    const divGlobal = document.createElement('div');
+                    divGlobal.classList.add('picture');
+                    const img = document.createElement('img');
+                    img.src = 'https://picsum.photos/seed/picsum/200/300';
+                    divGlobal.appendChild(img);
+                    const div = document.createElement('div');
+                    div.classList.add('connected');
+                    if (onlineUsers.some(id => String(id) === String(otherUser.id))) {
+                        div.classList.add('online');
+                    }
+                    divGlobal.appendChild(div);
+                    a.appendChild(divGlobal);
+                    const p = document.createElement('p');
+                    p.textContent = otherUser.username;
+                    a.appendChild(p);
+                    list.appendChild(a);
                 }
-                divGlobal.appendChild(div);
-                a.appendChild(divGlobal);
-                const p = document.createElement('p');
-                p.textContent = otherUser.username;
-                a.appendChild(p);
-                list.appendChild(a);
             }
         });
 }
