@@ -8,6 +8,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RGPDController;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\FriendRequestController;
 
 // Authentification
 Route::get('/inscription', [AuthController::class, 'showRegister'])->name('register');
@@ -40,6 +41,13 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/channels/delete', [ChannelController::class, 'deletechannels'])->name('channels.delete');
     Route::post('/channels/list', [ChannelController::class, 'listchannels'])->name('channels.list');
     Route::post('/users/search', [ChannelController::class, 'searchUserAdd'])->name('users.search');
+
+    // Routes pour les demandes d'ami
+    Route::post('/friend-request/send', [FriendRequestController::class, 'send'])->name('friend-request.send');
+    Route::post('/friend-request/accept', [FriendRequestController::class, 'accept'])->name('friend-request.accept');
+    Route::post('/friend-request/reject', [FriendRequestController::class, 'reject'])->name('friend-request.reject');
+    Route::post('/friend-request/cancel', [FriendRequestController::class, 'cancel'])->name('friend-request.cancel');
+    Route::post('/friend-request/pending', [FriendRequestController::class, 'pendingRequests'])->name('friend-request.pending');
 
     Route::post('/message-sent', [MessageController::class, 'messageSent'])->name('message-sent');
     Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');

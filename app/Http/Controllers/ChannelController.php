@@ -29,10 +29,7 @@ class ChannelController extends Controller
         }
         $channelsPrivate = $user->conversations()
             ->where('type', 'private')
-            ->whereHas('users', function ($query) {
-                $query->selectRaw('count(users.id)')
-                    ->havingRaw('count(users.id) = 2');
-            })
+            ->whereRaw('(SELECT COUNT(DISTINCT user_id) FROM conversation_user WHERE conversation_user.conversation_id = conversations.id) = 2')
             ->with(['users' => function ($query) use ($user) {
                 $query->where('users.id', '!=', $user->id);
             }])
@@ -66,10 +63,7 @@ class ChannelController extends Controller
         }
         $channelsPrivate = $user->conversations()
             ->where('type', 'private')
-            ->whereHas('users', function ($query) {
-                $query->selectRaw('count(users.id)')
-                    ->havingRaw('count(users.id) = 2');
-            })
+            ->whereRaw('(SELECT COUNT(DISTINCT user_id) FROM conversation_user WHERE conversation_user.conversation_id = conversations.id) = 2')
             ->with(['users' => function ($query) use ($user) {
                 $query->where('users.id', '!=', $user->id);
             }])

@@ -19,14 +19,14 @@ window.searchUserAddModal = async function () {
     }
 
     try {
-        const response = await fetch('/users/search', {
+        const response = await fetch('/friend-request/send', {
             method: 'POST',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ search }),
+            body: JSON.stringify({ receiver_id: search }),
         });
 
         if (!response.ok) {

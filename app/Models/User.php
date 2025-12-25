@@ -35,4 +35,16 @@ class User extends Authenticatable
         return $this->belongsToMany(Message::class, 'message_reads')
                     ->withTimestamps();
     }
+
+    // Demandes d'ami envoyées par cet utilisateur
+    public function sentFriendRequests()
+    {
+        return $this->hasMany(FriendRequest::class, 'sender_id');
+    }
+
+    // Demandes d'ami reçues par cet utilisateur
+    public function receivedFriendRequests()
+    {
+        return $this->hasMany(FriendRequest::class, 'receiver_id');
+    }
 }

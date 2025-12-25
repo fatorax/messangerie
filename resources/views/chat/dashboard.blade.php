@@ -20,6 +20,7 @@
         'resources/js/dashboard/EditChannelModal.js',
         'resources/js/dashboard/DeleteChannelModal.js',
         'resources/js/dashboard/searchUserAddModal.js',
+        'resources/js/dashboard/FriendRequestViewModal.js',
         'resources/js/app.js',
     ])
 </head>
@@ -27,6 +28,7 @@
     @include('chat.modal.createChannelModal')
     @include('chat.modal.editChannelModal')
     @include('chat.modal.searchUserAddModal')
+    @include('chat.modal.friendRequestViewModal')
     @include('chat.layout.nav')
     <div class="container">
         @include('chat.layout.header')
