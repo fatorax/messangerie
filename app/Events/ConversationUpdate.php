@@ -11,7 +11,7 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use App\Models\User;
 
-class ConversationCreate implements ShouldBroadcastNow
+class ConversationUpdate implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -41,6 +41,6 @@ class ConversationCreate implements ShouldBroadcastNow
 
     public function broadcastAs()
     {
-        return 'conversation.add';
+        return 'conversation.update';
     }
 }

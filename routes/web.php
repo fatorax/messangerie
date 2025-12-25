@@ -36,7 +36,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/channels', [ChannelController::class, 'dashboard'])->name('dashboard');
     Route::get('/channels/{id}', [ChannelController::class, 'viewChannel'])->name('channels.view');
     Route::post('/channels/add', [ChannelController::class, 'addchannels'])->name('channels.add');
-    Route::post('/channels/edit', [ChannelController::class, 'addchannels'])->name('channels.add');
+    Route::post('/channels/edit', [ChannelController::class, 'editchannels'])->name('channels.edit');
     Route::post('/channels/delete', [ChannelController::class, 'deletechannels'])->name('channels.delete');
     Route::post('/channels/list', [ChannelController::class, 'listchannels'])->name('channels.list');
     Route::post('/users/search', [ChannelController::class, 'searchUserAdd'])->name('users.search');

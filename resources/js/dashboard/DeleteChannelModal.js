@@ -40,7 +40,8 @@ window.deleteChannel = async function (id) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Erreur',
-                        text: errorMsg
+                        text: 'Une erreur est survenue lors de la suppression.'
+                        // text: errorMsg
                     });
                     return;
                 }

@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -29,7 +30,8 @@ class ConversationDeleted implements ShouldBroadcastNow
                 return new PrivateChannel('user.' . $id);
             })->all();
         }
-        return [new PrivateChannel('user.0')]; // fallback
+        // Si aucun utilisateur n'est spécifié, diffuser sur le channel public
+        return [new Channel('conversations')]; // fallback
     }
 
     public function broadcastAs()

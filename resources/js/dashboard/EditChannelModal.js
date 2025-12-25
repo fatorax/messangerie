@@ -13,6 +13,7 @@ window.closeEditChannelModal = function () {
 
 window.editChannel = async function () {
     const form = document.querySelector('.editChannelModal form');
+    const id = form.id.value;
     const name = form.name.value.trim();
     const errorName = document.querySelector('.editChannelModal form .error-name');
 
@@ -30,7 +31,7 @@ window.editChannel = async function () {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ name }),
+            body: JSON.stringify({ id, name }),
         });
 
         // Vérifie la réponse
@@ -49,10 +50,10 @@ window.editChannel = async function () {
         const data = await response.json();
 
         form.reset();
-        closeChannelModal();
+        closeEditChannelModal();
 
     } catch (error) {
         errorName.classList.remove('hidden');
-        errorName.textContent = 'Une erreur est survenue lors de la création du canal.';
+        errorName.textContent = 'Une erreur est survenue lors de la modification du canal.';
     }
 };

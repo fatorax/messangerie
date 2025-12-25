@@ -8,7 +8,7 @@ use App\Models\Conversation;
 use App\Models\User;
 use App\Events\ConversationDeleted;
 use App\Events\ConversationCreate;
-use Illuminate\Support\Facades\Log;
+use App\Events\ConversationUpdate;
 
 class ChannelController extends Controller
 {
@@ -90,7 +90,7 @@ class ChannelController extends Controller
             'is_encrypted' => false,
         ]);
 
-        event(new ConversationCreate($channel, User::all()->pluck('id')->toArray()));
+        event(new ConversationCreate($channel, []));
 
         return response()->json([
             'success' => true,
@@ -98,24 +98,23 @@ class ChannelController extends Controller
         ]);
     }
 
-    // public function editchannels(Request $request)
-    // {
-    //     $validated = $request->validate([
-    //         'name' => 'required|string|max:255',
-    //     ]);
+    public function editchannels(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'required|integer|exists:conversations,id',
+            'name' => 'required|string|max:255',
+        ]);
 
-    //     $channel = Conversation::create([
-    //         'name' => $validated['name'],
-    //         'type' => 'global',
-    //         'created_by' => Auth::id(),
-    //         'is_encrypted' => false,
-    //     ]);
+        $channel = Conversation::findOrFail($validated['id']);
+        $channel->update(['name' => $validated['name']]);
 
-    //     return response()->json([
-    //         'success' => true,
-    //         'channel' => $channel,
-    //     ]);
-    // }
+        event(new ConversationUpdate($channel));
+
+        return response()->json([
+            'success' => true,
+            'channel' => $channel,
+        ]);
+    }
 
     public function deletechannels(Request $request)
     {
@@ -127,7 +126,12 @@ class ChannelController extends Controller
 
         $conversation->delete();
 
-        broadcast(new \App\Events\ConversationDeleted($id, $userIds));
+        // Envoyer à tout le monde si channel global, sinon seulement aux membres
+        if ($conversation->type === 'global') {
+            broadcast(new ConversationDeleted($id, []));
+        } else {
+            broadcast(new ConversationDeleted($id, $userIds));
+        }
 
         return response()->json(['success' => true]);
     }

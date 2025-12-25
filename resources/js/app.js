@@ -127,16 +127,14 @@ if (window.Echo) {
 }
 
 const metaUser = document.querySelector('meta[name="current-user-id"]');
-const currentUserId = metaUser ? metaUser.content : null;
-// Ajout dynamique d'une conversation
-if (currentUserId) {
+const currentUserId = metaUser ? parseInt(metaUser.content) : null;
+// Écouter les événements publics diffusés à tous les utilisateurs
+if (currentUserId && window.Echo) {
     window.Echo.private(`user.${currentUserId}`)
         .listen('.conversation.add', (data) => {
-            console.log(data);
             if (data && data.conversation && data.users) {
                 if(data.conversation.type == 'global'){
                     const list = document.querySelector('#channelsPublicList');
-                    const otherUser = data.users.find(u => u.id !== currentUserId);
                     const a = document.createElement('a');
                     a.href = '/channels/' + data.conversation.id;
                     a.classList.add('link');
@@ -176,11 +174,7 @@ if (currentUserId) {
                     list.appendChild(a);
                 }
             }
-        });
-}
-
-if (currentUserId) {
-    window.Echo.private(`user.${currentUserId}`)
+        })
         .listen('.conversation.deleted', (data) => {
             if (data && data.conversationId) {
                 const link = document.querySelector(`[href$='/channels/${data.conversationId}']`);
@@ -190,6 +184,59 @@ if (currentUserId) {
                 // Si on est sur la page du channel supprimé, on redirige
                 if (typeof conversationId !== 'undefined' && String(conversationId) === String(data.conversationId)) {
                     window.location.href = '/channels';
+                }
+            }
+        });
+}
+
+// Écouter les événements publics diffusés à tous les utilisateurs
+if (window.Echo) {
+    window.Echo.channel('conversations')
+        .listen('.conversation.add', (data) => {
+            if (data && data.conversation && data.users) {
+                if(data.conversation.type == 'global'){
+                    const list = document.querySelector('#channelsPublicList');
+                    if (!list) return;
+                    const a = document.createElement('a');
+                    a.href = '/channels/' + data.conversation.id;
+                    a.classList.add('link');
+                    const divGlobal = document.createElement('div');
+                    divGlobal.classList.add('picture');
+                    const img = document.createElement('img');
+                    img.src = 'https://picsum.photos/seed/picsum/200/300';
+                    divGlobal.appendChild(img);
+                    const div = document.createElement('div');
+                    divGlobal.appendChild(div);
+                    a.appendChild(divGlobal);
+                    const p = document.createElement('p');
+                    p.textContent = data.conversation.name;
+                    a.appendChild(p);
+                    list.appendChild(a);
+                }
+            }
+        })
+        .listen('.conversation.deleted', (data) => {
+            if (data && data.conversationId) {
+                const link = document.querySelector(`[href$='/channels/${data.conversationId}']`);
+                if (link) {
+                    link.remove();
+                }
+                // Si on est sur la page du channel supprimé, on redirige
+                if (typeof conversationId !== 'undefined' && String(conversationId) === String(data.conversationId)) {
+                    window.location.href = '/channels';
+                }
+            }
+        })
+        .listen('.conversation.update', (data) => {
+            if (data && data.conversation) {
+                const link = document.querySelector(`[href$='/channels/${data.conversation.id}']`);
+                console.log('Found link:', link);
+                if (link) {
+                    link.querySelector('p').textContent = data.conversation.name;
+                }
+                if (String(conversationId) === String(data.conversation.id)) {
+                    const title = document.querySelector('div.title p');
+                    title.textContent = data.conversation.name;
                 }
             }
         });

@@ -9,6 +9,7 @@
         <form onsubmit="event.preventDefault(); editChannel({{ $conversationView->id }});" {{ $conversationView->type != 'global' ? 'style=display:none;' : '' }}>
             @csrf
             <div class="form-group">
+                <input type="text" name="id" value="{{ $conversationView->id }}" hidden>
                 <label for="">Nom</label>
                 <input type="text" name="name" placeholder="{{ $conversationView->name }}" value="{{ $conversationView->name }}" max="255" required {{ $conversationView->type != 'global' ? 'disabled' : '' }}>
                 <span class="error error-name hidden"></span>
