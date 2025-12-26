@@ -90,9 +90,6 @@ class FriendRequestController extends Controller
             ], 403);
         }
 
-        // Accepter la demande
-        $friendRequest->update(['status' => 'accepted']);
-
         // Créer le channel privé automatiquement
         $sender = User::find($friendRequest->sender_id);
         $receiver = User::find($friendRequest->receiver_id);
@@ -107,6 +104,12 @@ class FriendRequestController extends Controller
         $channel->users()->attach([
             $sender->id => ['role' => 'member'],
             $receiver->id => ['role' => 'member'],
+        ]);
+
+        // Accepter la demande
+        $friendRequest->update([
+            'status' => 'accepted',
+            'conversation_id' => $channel->id,
         ]);
 
         // Diffuser l'événement aux deux utilisateurs
@@ -139,7 +142,7 @@ class FriendRequestController extends Controller
         }
 
         // Rejeter la demande
-        $friendRequest->update(['status' => 'rejected']);
+        $friendRequest->delete();
 
         return response()->json([
             'success' => true,

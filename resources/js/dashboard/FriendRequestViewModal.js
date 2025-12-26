@@ -27,7 +27,6 @@ async function loadPendingFriendRequests() {
         }
 
         const data = await response.json();
-        console.log('Demandes d\'amis en attente:', data.requests);
         displayFriendRequests(data.requests);
 
     } catch (error) {
@@ -110,6 +109,8 @@ async function acceptFriendRequest(requestId, element) {
             text: 'Un channel privé a été créé',
             timer: 2000,
         });
+
+        closeFriendRequestViewModal();
 
         await loadPendingFriendRequests();
 

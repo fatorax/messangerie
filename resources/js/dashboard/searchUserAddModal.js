@@ -5,6 +5,8 @@ window.openSearchUserAddModal = function () {
 
 window.closeSearchUserAddModal = function () {
     document.querySelector('.searchUserAddModal').classList.remove('active');
+    document.querySelector('.searchUserAddModal form').reset();
+    document.querySelector('.searchUserAddModal form .error-name').textContent = '';
 };
 
 window.searchUserAddModal = async function () {
@@ -26,7 +28,7 @@ window.searchUserAddModal = async function () {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ receiver_id: search }),
+            body: JSON.stringify({ search }),
         });
 
         if (!response.ok) {

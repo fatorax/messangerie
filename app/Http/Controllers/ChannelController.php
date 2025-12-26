@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Events\ConversationDeleted;
 use App\Events\ConversationCreate;
 use App\Events\ConversationUpdate;
+use App\Models\FriendRequest;
 
 class ChannelController extends Controller
 {
@@ -114,6 +115,11 @@ class ChannelController extends Controller
     {
         $id = $request->input('id');
         $conversation = Conversation::findOrFail($id);
+
+        $friendRequest = FriendRequest::where('conversation_id', $id)->first();
+        if ($friendRequest) {
+            $friendRequest->delete();
+        }
 
         // Récupère les IDs des membres de la conversation
         $userIds = $conversation->users()->pluck('users.id')->toArray();
