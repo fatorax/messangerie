@@ -14,7 +14,7 @@
     <div class="container">
         <h1>Vous avez oublié votre mot de passe ?</h1>
         <p>Pas de panique, il vous suffit de renseigner votre adresse email ci-dessous</p>
-        <form method="POST" action="{{ route('forgot-password') }}">
+        <form method="POST" action="{{ route('forgot-password.submit') }}">
             @csrf
             <div class="form-group">
                 <label for="">Email</label>

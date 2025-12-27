@@ -12,17 +12,17 @@ use App\Http\Controllers\FriendRequestController;
 
 // Authentification
 Route::get('/inscription', [AuthController::class, 'showRegister'])->name('register');
-Route::post('/inscription', [AuthController::class, 'register'])->name('register');
+Route::post('/inscription', [AuthController::class, 'register'])->name('register.submit');
 
 Route::get('/connexion', [AuthController::class, 'showLogin'])->name('login');
-Route::post('/connexion', [AuthController::class, 'login'])->name('login');
+Route::post('/connexion', [AuthController::class, 'login'])->name('login.submit');
 
 Route::get('/email/verify/{email}/{hash}', [AuthController::class, 'verifyEmail'])->name('verify-email');
 
 Route::get('/mot-de-passe-oublie', [AuthController::class, 'showForgotPassword'])->name('forgot-password');
-Route::post('/mot-de-passe-oublie', [AuthController::class, 'forgotPassword'])->name('forgot-password');
+Route::post('/mot-de-passe-oublie', [AuthController::class, 'forgotPassword'])->name('forgot-password.submit');
 Route::get('/reinitialiser-mot-de-passe/{email}/{token}', [AuthController::class, 'showResetPassword'])->name('reset-password');
-Route::post('/reinitialiser-mot-de-passe/{email}/{token}', [AuthController::class, 'resetPassword'])->name('reset-password');
+Route::post('/reinitialiser-mot-de-passe/{email}/{token}', [AuthController::class, 'resetPassword'])->name('reset-password.submit');
 
 Route::get('/cgu', [RGPDController::class, 'cgu'])->name('cgu');
 Route::get('/mentions-legales', [RGPDController::class, 'mentionsLegales'])->name('mentions-legales');

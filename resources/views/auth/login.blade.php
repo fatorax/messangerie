@@ -34,7 +34,7 @@
     <div class="container">
         <h1>Bienvenue sur le chat</h1>
         <p>Bienvenue sur le site de {{ config('app.name') }}</p>
-        <form method="POST" action="{{ route('login') }}">
+        <form method="POST" action="{{ route('login.submit') }}">
             @csrf
             <div class="form-group">
                 <label for="">Email</label>

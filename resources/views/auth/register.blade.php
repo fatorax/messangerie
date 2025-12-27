@@ -18,7 +18,7 @@
     <div class="container">
         <h1>Rejoindre le chat</h1>
         <p>Bienvenue sur le site de {{ config('app.name') }}</p>
-        <form method="POST" action="{{ route('register') }}">
+        <form method="POST" action="{{ route('register.submit') }}">
             @csrf
             <div class="form-group">
                 <label for="">Nom</label>
