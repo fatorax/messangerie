@@ -8,6 +8,8 @@ use App\Models\FriendRequest;
 use App\Models\User;
 use App\Models\Conversation;
 use App\Events\ConversationCreate;
+use Illuminate\Support\Facades\App;
+use App\Events\FriendRequestAdded;
 
 class FriendRequestController extends Controller
 {
@@ -64,6 +66,9 @@ class FriendRequestController extends Controller
             'receiver_id' => $receiverId,
             'status' => 'pending',
         ]);
+
+        // Diffuser l'événement
+        event(new FriendRequestAdded($friendRequest, [$receiverId]));
 
         return response()->json([
             'success' => true,
@@ -155,14 +160,20 @@ class FriendRequestController extends Controller
     {
         $currentUserId = Auth::id();
 
-        $requests = FriendRequest::where('receiver_id', $currentUserId)
+        $sent = FriendRequest::where('sender_id', $currentUserId)
+            ->where('status', 'pending')
+            ->with('receiver')
+            ->get();
+
+        $received = FriendRequest::where('receiver_id', $currentUserId)
             ->where('status', 'pending')
             ->with('sender')
             ->get();
 
         return response()->json([
             'success' => true,
-            'requests' => $requests,
+            'sent' => $sent,
+            'received' => $received,
         ]);
     }
 

@@ -28,7 +28,7 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if ($user) {
-            return redirect()->route('login')->with('error', 'Cet email est déjà utilisé');
+            return redirect()->route('login')->with('error', 'Cet email est déjà utilisé')->withInput();
         }
 
         $verifyToken = Str::uuid()->toString();

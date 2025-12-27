@@ -163,9 +163,7 @@ if (currentUserId && window.Echo) {
                     divGlobal.appendChild(img);
                     const div = document.createElement('div');
                     div.classList.add('connected');
-                    if (onlineUsers.some(id => String(id) === String(otherUser.id))) {
-                        div.classList.add('online');
-                    }
+                    if (onlineUsers.some(id => String(id) === String(otherUser.id))) div.classList.add('online');
                     divGlobal.appendChild(div);
                     a.appendChild(divGlobal);
                     const p = document.createElement('p');
@@ -184,6 +182,15 @@ if (currentUserId && window.Echo) {
                 // Si on est sur la page du channel supprimé, on redirige
                 if (typeof conversationId !== 'undefined' && String(conversationId) === String(data.conversationId)) {
                     window.location.href = '/channels';
+                }
+            }
+        })
+        .listen('.friendRequest.added', (data) => {
+            if (data && data.friendRequest && data.users) {
+                const friendRequestCounter = document.querySelector('#friendRequestCounter');
+                if (friendRequestCounter) {
+                    friendRequestCounter.textContent = parseInt(friendRequestCounter.textContent) + 1;
+                    friendRequestCounter.classList.remove('hidden');
                 }
             }
         });

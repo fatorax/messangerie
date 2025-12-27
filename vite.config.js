@@ -22,6 +22,7 @@ export default defineConfig({
                 'resources/js/dashboard/EditChannelModal.js',
                 'resources/js/dashboard/DeleteChannelModal.js',
                 'resources/js/dashboard/searchUserAddModal.js',
+                'resources/js/dashboard/FriendRequestViewModal.js',
                 'resources/js/app.js',
             ],
             refresh: true,
