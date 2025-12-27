@@ -18,15 +18,12 @@ Broadcast::channel('chat.{conversationId}', function ($user, $conversationId) {
         } else {
             if ($user) {
                 $isMember = (bool) $user->conversations()->where('conversations.id', $conversationId)->exists();
-                Log::info('Broadcast auth attempt', ['user_id' => $userId, 'conversation_id' => $conversationId, 'is_member' => $isMember]);
             }
         }
     } catch (\Throwable $e) {
-        Log::error('Broadcast auth check failed', ['error' => $e->getMessage(), 'conversation_id' => $conversationId]);
         return false;
     }
     
-    Log::info('Broadcast auth attempt', ['user_id' => $userId, 'conversation_id' => $conversationId, 'is_member' => $isMember]);
     if (! $user) return false;
     return $isMember;
 });

@@ -156,8 +156,12 @@ async function acceptFriendRequest(requestId, element) {
         await loadPendingFriendRequests();
 
     } catch (error) {
-        console.error('Erreur:', error);
-        alert('Une erreur est survenue');
+        Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: "Une erreur est survenue",
+            timer: 2000,
+        });
     }
 }
 
@@ -175,7 +179,12 @@ async function rejectFriendRequest(requestId, element) {
 
         if (!response.ok) {
             const error = await response.json();
-            alert(error.message || 'Erreur lors du rejet de la demande');
+            Swal.fire({
+                icon: 'error',
+                title: 'Erreur',
+                text: error.message || 'Erreur lors du rejet de la demande',
+                timer: 2000,
+            });
             return;
         }
 
@@ -190,8 +199,12 @@ async function rejectFriendRequest(requestId, element) {
         await loadPendingFriendRequests();
 
     } catch (error) {
-        console.error('Erreur:', error);
-        alert('Une erreur est survenue');
+        Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: "Une erreur est survenue",
+            timer: 2000,
+        });
     }
 }
 

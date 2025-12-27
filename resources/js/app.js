@@ -186,11 +186,22 @@ if (currentUserId && window.Echo) {
             }
         })
         .listen('.friendRequest.added', (data) => {
-            if (data && data.friendRequest && data.users) {
+            if (data) {
                 const friendRequestCounter = document.querySelector('#friendRequestCounter');
                 if (friendRequestCounter) {
                     friendRequestCounter.textContent = parseInt(friendRequestCounter.textContent) + 1;
                     friendRequestCounter.classList.remove('hidden');
+                }
+            }
+        })
+        .listen('.friendRequest.removed', (data) => {
+            if (data) {
+                const friendRequestCounter = document.querySelector('#friendRequestCounter');
+                if (friendRequestCounter) {
+                    friendRequestCounter.textContent = parseInt(friendRequestCounter.textContent) - 1;
+                    if(parseInt(friendRequestCounter.textContent) <= 0){
+                        friendRequestCounter.classList.add('hidden');
+                    }
                 }
             }
         });

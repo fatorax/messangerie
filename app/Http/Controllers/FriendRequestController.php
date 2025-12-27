@@ -8,8 +8,9 @@ use App\Models\FriendRequest;
 use App\Models\User;
 use App\Models\Conversation;
 use App\Events\ConversationCreate;
-use Illuminate\Support\Facades\App;
 use App\Events\FriendRequestAdded;
+use App\Events\FriendRequestRemoved;
+use Illuminate\Support\Facades\Log;
 
 class FriendRequestController extends Controller
 {
@@ -120,6 +121,7 @@ class FriendRequestController extends Controller
         // Diffuser l'événement aux deux utilisateurs
         $users = [$sender, $receiver];
         event(new ConversationCreate($channel, $users));
+        event(new FriendRequestRemoved($friendRequest, [$receiver->id]));
 
         return response()->json([
             'success' => true,
@@ -148,6 +150,8 @@ class FriendRequestController extends Controller
 
         // Rejeter la demande
         $friendRequest->delete();
+
+        event(new FriendRequestRemoved($friendRequest, [$friendRequest->receiver_id]));
 
         return response()->json([
             'success' => true,
@@ -196,6 +200,8 @@ class FriendRequestController extends Controller
         }
 
         $friendRequest->delete();
+
+        event(new FriendRequestRemoved($friendRequest, [$friendRequest->receiver_id]));
 
         return response()->json([
             'success' => true,

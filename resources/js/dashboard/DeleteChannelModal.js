@@ -1,12 +1,14 @@
+const { default: Swal } = require("sweetalert2");
+
 window.deleteChannel = async function (id) {
 
     if (!id || id == 1) {
-        alert('ID de canal invalide.');
-        return;
-    }
-
-    if (typeof Swal === 'undefined') {
-        alert('La librairie SweetAlert2 est requise pour la confirmation.');
+        Swal.fire({
+            icon: 'error',
+            title: 'Erreur',
+            text: "Vous ne pouvez pas supprimer ce channel.",
+            timer: 2000,
+        });
         return;
     }
 

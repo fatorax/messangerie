@@ -9,7 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Foundation\Events\Dispatchable;
 
-class FriendRequestAdded implements ShouldBroadcastNow
+class FriendRequestRemoved implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -34,6 +34,6 @@ class FriendRequestAdded implements ShouldBroadcastNow
 
     public function broadcastAs()
     {
-        return 'friendRequest.added';
+        return 'friendRequest.removed';
     }
 }
