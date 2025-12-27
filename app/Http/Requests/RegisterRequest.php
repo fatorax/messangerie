@@ -23,6 +23,7 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'profile-picture' => 'nullable|image|mimes:jpeg,png,jpg,webp,svg|max:2048',
             'firtName' => 'required',
             'lastName' => 'required',
             'pseudonyme' => 'required',
@@ -36,6 +37,9 @@ class RegisterRequest extends FormRequest
     public function messages()
     {
         return [
+            'profile-picture.image' => 'Le fichier doit être une image',
+            'profile-picture.mimes' => 'Les formats autorisés sont jpeg, png, jpg, webp, svg',
+            'profile-picture.max' => 'La taille maximale de l\'image est de 2 Mo',
             'firtName.required' => 'Le nom est obligatoire',
             'lastName.required' => 'Le prénom est obligatoire',
             'pseudonyme.required' => 'Le pseudonyme est obligatoire',
@@ -46,5 +50,13 @@ class RegisterRequest extends FormRequest
             'password-confirm.same' => 'Les mots de passe ne correspondent pas',
             'rgpd.required' => 'Vous devez accepter les CGV',
         ];
+    }
+
+    /**
+     * Indique si les données du formulaire doivent être "flashées" à la session lors d'une validation échouée.
+     */
+    public function withInput()
+    {
+        return true;
     }
 }

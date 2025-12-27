@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -23,12 +24,28 @@ class UserController extends Controller
                 'username' => 'required|string|max:255|unique:users,username,' . $user->id,
                 'firstname' => 'required|string|max:255',
                 'lastname' => 'required|string|max:255',
+                'profile-picture' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,webp,svg',
             ]);
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->route('settings')
                 ->withErrors($e->validator)
                 ->withInput()
                 ->with('error', 'Erreur de validation. Veuillez corriger les champs.');
+        }
+
+        if ($request->hasFile('profile-picture')) {
+            $file = $request->file('profile-picture');
+            if ($file && $file->isValid()) {
+                $filename = $request->username . '.' . $file->getClientOriginalExtension();
+                $content = file_get_contents($file->getRealPath() ?: $file->getPathname());
+                if ($content !== false) {
+                    // supprimer l'ancien avatar
+                    Storage::disk('public')->delete('users/' . $user->avatar);
+                    // ajouter le nouveau avatar
+                    $user->avatar = $filename;
+                    Storage::disk('public')->put('users/' . $filename, $content);
+                }
+            }
         }
 
         $user->username = $request->input('username');

@@ -55,7 +55,7 @@ function displayFriendRequests(sent = [], received = []) {
             const pictureDiv = document.createElement('div');
             pictureDiv.classList.add('picture');
             const img = document.createElement('img');
-            img.src = 'https://picsum.photos/seed/picsum/200/300';
+            img.src = '/storage/users/' + (receiver?.avatar || 'default.webp');
             img.alt = `Image de profil de ${receiver ? receiver.username : ''}`;
             pictureDiv.appendChild(img);
 
@@ -88,7 +88,7 @@ function displayFriendRequests(sent = [], received = []) {
             const pictureDiv = document.createElement('div');
             pictureDiv.classList.add('picture');
             const img = document.createElement('img');
-            img.src = 'https://picsum.photos/seed/picsum/200/300';
+            img.src = '/storage/users/' + (sender?.avatar || 'default.webp');
             img.alt = `Image de profil de ${sender.username}`;
             pictureDiv.appendChild(img);
 

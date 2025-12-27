@@ -15,6 +15,7 @@ use App\Mail\ForgotPassword;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -33,11 +34,25 @@ class AuthController extends Controller
 
         $verifyToken = Str::uuid()->toString();
 
+        $profilePicturePath = 'users/default.webp';
+        if ($request->hasFile('profile-picture')) {
+            $file = $request->file('profile-picture');
+            if ($file && $file->isValid()) {
+                $filename = $request->pseudonyme . '.' . $file->getClientOriginalExtension();
+                $content = file_get_contents($file->getRealPath() ?: $file->getPathname());
+                if ($content !== false) {
+                    Storage::disk('public')->put('users/' . $filename, $content);
+                    $profilePicturePath = $filename;
+                }
+            }
+        }
+
         $user = User::create([
             'firstname' => $request->firtName,
             'lastname' => $request->lastName,
             'username' => $request->pseudonyme,
             'email' => $request->email,
+            'avatar' => $profilePicturePath,
             'password' => Hash::make($request->password),
             'verify_token' => $verifyToken,
         ]);
@@ -75,7 +90,7 @@ class AuthController extends Controller
             return redirect()->route('dashboard');
         }
 
-        return redirect()->route('login');
+        return redirect()->route('login')->with('error', 'Cet email ou mot de passe est invalide');
     }
 
     public function logout()

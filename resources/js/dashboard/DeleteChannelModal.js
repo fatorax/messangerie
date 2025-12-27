@@ -1,5 +1,3 @@
-const { default: Swal } = require("sweetalert2");
-
 window.deleteChannel = async function (id) {
 
     if (!id || id == 1) {

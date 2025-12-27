@@ -165,12 +165,12 @@ class FriendRequestController extends Controller
         $currentUserId = Auth::id();
 
         $sent = FriendRequest::where('sender_id', $currentUserId)
-            ->where('status', 'pending')
+            ->where('status', '!=', 'accepted')
             ->with('receiver')
             ->get();
 
         $received = FriendRequest::where('receiver_id', $currentUserId)
-            ->where('status', 'pending')
+            ->where('status', '!=', 'accepted')
             ->with('sender')
             ->get();
 

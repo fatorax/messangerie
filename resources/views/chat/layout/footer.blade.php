@@ -1,5 +1,5 @@
 <footer>
-    <form id="chat-form">
+    <form id="chat-form" data-route="{{ route('message-sent') }}">
         @csrf
         <input type="hidden" name="conversation_id" value="{{ $conversationView->id }}">
         <textarea name="content" id="message-input" rows="1"></textarea>
@@ -9,53 +9,5 @@
     </form>
 </footer>
 
-<script src="https://js.pusher.com/8.4/pusher.min.js"></script>
-<script>
-    const textarea = document.getElementById('message-input');
-    const form = document.getElementById('chat-form');
-
-    // Envoi du message avec fetch
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        let input = textarea;
-        let conversationId = document.querySelector('input[name="conversation_id"]').value;
-
-        fetch('{{ route("message-sent") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-            },
-            body: JSON.stringify({
-                content: input.value,
-                conversation_id: conversationId
-            })
-        }).then(res => {
-            if (!res.ok) throw new Error('Erreur serveur');
-            input.value = '';
-            textarea.style.height = 'auto';
-        }).catch(err => console.error(err));
-    });
-
-    // Envoi avec Enter (sauf Alt+Enter)
-    textarea.addEventListener('keydown', function (e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            form.requestSubmit();
-        }
-    });
-
-    // Auto-resize du textarea
-    textarea.addEventListener('input', () => {
-        textarea.style.height = 'auto';
-        textarea.style.height = textarea.scrollHeight + 'px';
-    });
-
-    // Scroll initial en bas
-    document.addEventListener("DOMContentLoaded", () => {
-        const chatBox = document.getElementById('chat-box');
-        chatBox.scrollTop = chatBox.scrollHeight;
-    });
-</script>
 
 

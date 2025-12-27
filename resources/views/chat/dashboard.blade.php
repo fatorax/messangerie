@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <script src="https://js.pusher.com/8.0/pusher.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://js.pusher.com/8.4/pusher.min.js"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="conversation-id" content="{{ $conversationView->id }}">
     <meta name="current-user-id" content="{{ $user->id }}">
@@ -21,6 +22,8 @@
         'resources/js/dashboard/DeleteChannelModal.js',
         'resources/js/dashboard/searchUserAddModal.js',
         'resources/js/dashboard/FriendRequestViewModal.js',
+        'resources/js/dashboard/DeleteMessageModal.js',
+        'resources/js/dashboard/chatForm.js',
         'resources/js/app.js',
     ])
 </head>

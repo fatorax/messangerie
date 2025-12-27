@@ -39,12 +39,14 @@ class User extends Authenticatable
     // Demandes d'ami envoyées par cet utilisateur
     public function sentFriendRequests()
     {
-        return $this->hasMany(FriendRequest::class, 'sender_id');
+        return $this->hasMany(FriendRequest::class, 'sender_id')
+            ->where('status', '!=', 'accepted');
     }
 
     // Demandes d'ami reçues par cet utilisateur
     public function receivedFriendRequests()
     {
-        return $this->hasMany(FriendRequest::class, 'receiver_id');
+        return $this->hasMany(FriendRequest::class, 'receiver_id')
+            ->where('status', '!=', 'accepted');
     }
 }

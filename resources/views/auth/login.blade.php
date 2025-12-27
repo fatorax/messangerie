@@ -31,24 +31,28 @@
         });
         </script>
     @endif
-    <div class="container">
+    <div class="container login-container">
         <h1>Bienvenue sur le chat</h1>
         <p>Bienvenue sur le site de {{ config('app.name') }}</p>
         <form method="POST" action="{{ route('login.submit') }}">
             @csrf
-            <div class="form-group">
-                <label for="">Email</label>
-                <input type="email" name="email" placeholder="Email">
-                @error('email')
-                    <span class="error">{{ $message }}</span>
-                @enderror
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input type="email" name="email" placeholder="Email">
+                    @error('email')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
-            <div class="form-group">
-                <label for="">Mot de passe</label>
-                <input type="password" name="password" placeholder="Mot de passe">
-                @error('password')
-                    <span class="error">{{ $message }}</span>
-                @enderror
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="">Mot de passe</label>
+                    <input type="password" name="password" placeholder="Mot de passe">
+                    @error('password')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
             <a href="{{ route('forgot-password') }}" class="forgot-password">Mot de passe oublié ?</a>
             <button type="submit">Connexion</button>

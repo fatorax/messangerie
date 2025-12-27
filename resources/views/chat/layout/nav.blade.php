@@ -20,7 +20,7 @@
                 @foreach($channelsPublic as $channel)
                     <a href="{{ route('channels.view', $channel->id) }}" @class(['link', 'active' => $channel->id == $conversationView->id])>
                         <div class="picture">
-                            <img src="https://picsum.photos/seed/picsum/200/300" alt="Image de profil">
+                            <img src="{{ asset('storage/users/default.webp') }}" alt="Image de profil">
                         </div>
                         <p>{{ $channel->name }}</p>
                     </a>
@@ -41,7 +41,7 @@
                     @endphp
                     <a href="{{ route('channels.view', $channel->id) }}" @class(['link', 'active' => $channel->id == $conversationView->id])>
                         <div class="picture" data-user-id="{{ $otherUser->id }}">
-                            <img src="https://picsum.photos/seed/picsum/200/300" alt="Image de profil">
+                            <img src="{{ asset('storage/users/' . $otherUser->avatar) }}" alt="Image de profil">
                             <!-- Le rond de connexion sera géré dynamiquement par JS -->
                         </div>
                         <p>{{ $otherUser->username }}</p>
@@ -52,7 +52,7 @@
     </main>
     <footer>
         <div class="picture">
-            <img src="https://picsum.photos/seed/picsum/200/300" alt="Image de profil">
+            <img src="{{ asset('storage/users/' . $user->avatar) }}" alt="Image de profil">
             <div class="connected"></div>
         </div>
         <div class="name">

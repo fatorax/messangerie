@@ -14,22 +14,23 @@ class FriendRequestAdded implements ShouldBroadcastNow
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $friendRequest;
-    public $userIds;
+    public $users;
 
-    public function __construct(FriendRequest $friendRequest, $userIds = [])
+    public function __construct(FriendRequest $friendRequest, array $users = [])
     {
         $this->friendRequest = $friendRequest;
-        $this->userIds = $userIds;
+        $this->users = $users;
     }
 
     public function broadcastOn()
     {
         // Diffuse sur le channel privé de chaque utilisateur membre
-        if (is_array($this->userIds) && count($this->userIds)) {
-            return collect($this->userIds)->map(function($id) {
+        if (is_array($this->users) && count($this->users)) {
+            return collect($this->users)->map(function($id) {
                 return new PrivateChannel('user.' . $id);
             })->all();
         }
+        return [];
     }
 
     public function broadcastAs()

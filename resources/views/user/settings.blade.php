@@ -38,7 +38,7 @@
     <section class="settings">
         <a href="{{ route('dashboard') }}" class="back">Retour au tableau de bord</a>
         <h1>Paramètres</h1>
-        <form method="POST" action="{{ route('user.settings.update') }}">
+        <form method="POST" action="{{ route('user.settings.update') }}" enctype="multipart/form-data">
             @csrf
             <h2>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -46,9 +46,16 @@
             </h2>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="text" name="email" value="{{ $user->email }}" placeholder="Email" disabled>
-                    @error('email')
+                    <label for="firstname">Nom</label>
+                    <input type="text" name="firstname" value="{{ $user->firstname }}" placeholder="Nom">
+                @error('firstname')
+                    <span class="error">{{ $message }}</span>
+                @enderror
+                </div>
+                <div class="form-group">
+                    <label for="lastname">Prénom</label>
+                    <input type="text" name="lastname" value="{{ $user->lastname }}" placeholder="Prénom">
+                    @error('lastname')
                         <span class="error">{{ $message }}</span>
                     @enderror
                 </div>
@@ -64,16 +71,19 @@
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="firstname">Nom</label>
-                    <input type="text" name="firstname" value="{{ $user->firstname }}" placeholder="Nom">
-                @error('firstname')
-                    <span class="error">{{ $message }}</span>
-                @enderror
+                    <label for="email">Email</label>
+                    <input type="text" name="email" value="{{ $user->email }}" placeholder="Email" disabled>
+                    @error('email')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
                 </div>
+            </div>
+            <div class="form-row">
                 <div class="form-group">
-                    <label for="lastname">Prénom</label>
-                    <input type="text" name="lastname" value="{{ $user->lastname }}" placeholder="Prénom">
-                    @error('lastname')
+                    <label for="avatar">Image de profil</label>
+                    <input type="file" name="profile-picture" accept="image/*" class="profile-picture-input" style="display:none;">
+                    <img src="{{ asset('storage/users/' . $user->avatar) }}" alt="{{ $user->username }}" class="profil-picture-preview" style="cursor:pointer; width:120px; height:120px; object-fit:cover; border-radius:50%;">
+                    @error('profile-picture')
                         <span class="error">{{ $message }}</span>
                     @enderror
                 </div>
@@ -108,6 +118,24 @@
                 });
             }
         });
+
+        const imgPreview = document.querySelector('.profil-picture-preview');
+        const fileInput = document.querySelector('.profile-picture-input');
+        if (imgPreview && fileInput) {
+            imgPreview.addEventListener('click', function() {
+                fileInput.click();
+            });
+            fileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        imgPreview.src = ev.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        }
     </script>
 </body>
 </html>

@@ -51,6 +51,7 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
 
     Route::post('/message-sent', [MessageController::class, 'messageSent'])->name('message-sent');
     Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::post('/messages/delete', [MessageController::class, 'delete'])->name('messages.delete');
     Route::get('/profil', [MessageController::class, 'profil'])->name('profil');
     Route::get('/parametres', [UserController::class, 'settings'])->name('settings');
     Route::post('/parametres', [UserController::class, 'updateSettings'])->name('user.settings.update');

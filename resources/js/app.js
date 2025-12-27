@@ -45,6 +45,11 @@ window.Echo.private(`chat.${conversationId}`)
         }
         const wrapper = document.createElement('div');
         wrapper.classList.add('chat-box-message');
+        // Ajoute l'id du message pour la suppression en temps réel
+        const messageId = e.id || (e.message && e.message.id);
+        if (messageId) {
+            wrapper.setAttribute('data-message-id', messageId);
+        }
         // Récupère l'id utilisateur courant depuis une balise meta
         const metaUser = document.querySelector('meta[name="current-user-id"]');
         const currentUserId = metaUser ? metaUser.content : null;
@@ -57,7 +62,8 @@ window.Echo.private(`chat.${conversationId}`)
         const picDiv = document.createElement('div');
         picDiv.className = 'chat-box-picture';
         const img = document.createElement('img');
-        img.src = 'https://picsum.photos/seed/picsum/200/300';
+        const avatar = e.user?.avatar || (e.message && e.message.user?.avatar) || 'default.webp';
+        img.src = '/storage/users/' + avatar;
         img.alt = 'Image de profil';
         picDiv.appendChild(img);
         const infoDiv = document.createElement('div');
@@ -83,6 +89,15 @@ window.Echo.private(`chat.${conversationId}`)
         wrapper.appendChild(infoDiv);
         chatBox.appendChild(wrapper);
         chatBox.scrollTop = chatBox.scrollHeight;
+    })
+    .listen('.MessageDeleted', (e) => {
+        // Suppression du message du DOM
+        const messageId = e.messageId;
+        if (!messageId) return;
+        const messageDiv = document.querySelector(`.chat-box-message[data-message-id="${messageId}"]`);
+        if (messageDiv) {
+            messageDiv.remove();
+        }
     });
 
 // Liste globale des utilisateurs en ligne
@@ -141,7 +156,7 @@ if (currentUserId && window.Echo) {
                     const divGlobal = document.createElement('div');
                     divGlobal.classList.add('picture');
                     const img = document.createElement('img');
-                    img.src = 'https://picsum.photos/seed/picsum/200/300';
+                    img.src = '/storage/users/' + (data.conversation.avatar || 'default.webp');
                     divGlobal.appendChild(img);
                     const div = document.createElement('div');
                     divGlobal.appendChild(div);
@@ -159,7 +174,7 @@ if (currentUserId && window.Echo) {
                     const divGlobal = document.createElement('div');
                     divGlobal.classList.add('picture');
                     const img = document.createElement('img');
-                    img.src = 'https://picsum.photos/seed/picsum/200/300';
+                    img.src = '/storage/users/' + (otherUser.avatar || 'default.webp');
                     divGlobal.appendChild(img);
                     const div = document.createElement('div');
                     div.classList.add('connected');
@@ -221,7 +236,7 @@ if (window.Echo) {
                     const divGlobal = document.createElement('div');
                     divGlobal.classList.add('picture');
                     const img = document.createElement('img');
-                    img.src = 'https://picsum.photos/seed/picsum/200/300';
+                    img.src = '/storage/users/' + (data.conversation.avatar || 'default.webp');
                     divGlobal.appendChild(img);
                     const div = document.createElement('div');
                     divGlobal.appendChild(div);
