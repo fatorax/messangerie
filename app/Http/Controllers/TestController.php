@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\TestMail;
 use App\Models\User;
 use App\Models\TestAccount;
+use App\Models\Conversation;
 use Illuminate\Support\Str;
 
 class TestController extends Controller
@@ -32,11 +33,11 @@ class TestController extends Controller
             // Renvoyer les informations existantes
             $users = [
                 [
-                    'username' => $existingRequest->username1,
+                    'email' => $existingRequest->email1,
                     'password' => $existingRequest->password1,
                 ],
                 [
-                    'username' => $existingRequest->username2,
+                    'email' => $existingRequest->email2,
                     'password' => $existingRequest->password2,
                 ]
             ];
@@ -54,11 +55,11 @@ class TestController extends Controller
 
         // Créer de nouveaux comptes de test
         do {
-            $tmpName1 = 'TestEnvoi' . rand(1, 10000);
+            $tmpName1 = 'User' . rand(1, 10000);
         } while (User::where('username', $tmpName1)->exists());
 
         do {
-            $tmpName2 = 'TestEnvoi' . rand(1, 10000);
+            $tmpName2 = 'User' . rand(1, 10000);
         } while ($tmpName2 === $tmpName1 || User::where('username', $tmpName2)->exists());
 
         $password1 = Str::random(10);
@@ -91,6 +92,20 @@ class TestController extends Controller
             'role' => 'test',
         ]);
 
+        // Créer une conversation entre les deux comptes de test
+        $conversation = Conversation::create([
+            'name' => null,
+            'type' => 'private',
+            'created_by' => $user1->id,
+            'is_encrypted' => false,
+        ]);
+
+        // Ajouter les deux utilisateurs à la conversation
+        $conversation->users()->attach([
+            $user1->id => ['role' => 'member'],
+            $user2->id => ['role' => 'member'],
+        ]);
+
         // Enregistrer la demande dans la table test_accounts
         TestAccount::create([
             'requester_email' => $requesterEmail,
@@ -107,11 +122,11 @@ class TestController extends Controller
 
         $users = [
             [
-                'username' => $tmpName1,
+                'email' => $email1,
                 'password' => $password1,
             ],
             [
-                'username' => $tmpName2,
+                'email' => $email2,
                 'password' => $password2,
             ]
         ];

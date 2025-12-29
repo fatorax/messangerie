@@ -17,26 +17,36 @@
                 @endif
             </div>
             <div class="links" id="channelsPublicList">
-                @foreach($channelsPublic as $channel)
-                    @php
-                        $unreadCount = $unreadCounts[$channel->id] ?? 0;
-                    @endphp
-                    <a href="{{ route('channels.view', $channel->id) }}" @class(['link', 'active' => $channel->id == $conversationView->id]) data-conversation-id="{{ $channel->id }}">
-                        <div class="picture">
-                            <img src="{{ asset('storage/users/default.webp') }}" alt="Image de profil">
-                        </div>
-                        <p>{{ $channel->name }}</p>
-                        <span class="message-counter {{ $unreadCount == 0 ? 'hidden' : '' }}">{{ $unreadCount }}</span>
-                    </a>
-                @endforeach
+                @if(auth()->user()->role !== 'test')
+                    @if($channelsPublic->count() == 0)
+                        <p>Aucun channel</p>
+                    @else
+                        @foreach($channelsPublic as $channel)
+                            @php
+                                $unreadCount = $unreadCounts[$channel->id] ?? 0;
+                            @endphp
+                            <a href="{{ route('channel.view', $channel->id) }}" @class(['link', 'active' => $channel->id == $conversationView->id]) data-conversation-id="{{ $channel->id }}">
+                                <div class="picture">
+                                    <img src="{{ asset('storage/users/default.webp') }}" alt="Image de profil">
+                                </div>
+                                <p>{{ $channel->name }}</p>
+                                <span class="message-counter {{ $unreadCount == 0 ? 'hidden' : '' }}">{{ $unreadCount }}</span>
+                            </a>
+                        @endforeach
+                    @endif
+                @else
+                    <p>Les comptes de test ne peuvent pas accéder aux channels publics.</p>
+                @endif
             </div>
         </div>
         <div class="channels">
             <div class="head">
                 <h2>Amis</h2>
-                <button onclick="openSearchUserAddModal()">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
-                </button>
+                @if(auth()->user()->role !== 'test')
+                    <button onclick="openSearchUserAddModal()">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-plus-icon lucide-plus"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                    </button>
+                @endif
             </div>
             <div class="links" id="channelsPrivateList">
                 @foreach($channelsPrivate as $channel)
@@ -44,10 +54,9 @@
                         $otherUser = $channel->users->first();
                         $unreadCount = $unreadCounts[$channel->id] ?? 0;
                     @endphp
-                    <a href="{{ route('channels.view', $channel->id) }}" @class(['link', 'active' => $channel->id == $conversationView->id]) data-conversation-id="{{ $channel->id }}">
+                    <a href="{{ route('channel.view', $channel->id) }}" @class(['link', 'active' => $channel->id == $conversationView->id]) data-conversation-id="{{ $channel->id }}">
                         <div class="picture" data-user-id="{{ $otherUser->id }}">
                             <img src="{{ asset('storage/users/' . $otherUser->avatar) }}" alt="Image de profil">
-                            <!-- Le rond de connexion sera géré dynamiquement par JS -->
                         </div>
                         <p>{{ $otherUser->username }}</p>
                         <span class="message-counter {{ $unreadCount == 0 ? 'hidden' : '' }}">{{ $unreadCount }}</span>
@@ -66,9 +75,11 @@
             <p>En ligne</p>
         </div>
         <div class="logout">
-            <a href="{{ route("settings") }}">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
-            </a>
+            @if(auth()->user()->role !== 'test')
+                <a href="{{ route("settings") }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings-icon lucide-settings"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"/><circle cx="12" cy="12" r="3"/></svg>
+                </a>
+            @endif
             <form action="{{ route("logout") }}" method="POST" style="display:inline;">
                 @csrf
                 <button type="submit" style="background:none;border:none;padding:0;cursor:pointer;">

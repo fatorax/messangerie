@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Message;
+use App\Models\Conversation;
 use Illuminate\Support\Facades\Auth;
 use App\Events\MessageSent;
 use App\Events\MessageDeleted;
+use App\Events\MessageRead;
 
 class MessageController extends Controller
 {
@@ -22,6 +24,19 @@ class MessageController extends Controller
             'user_id' => Auth::id(),
             'content' => $request->content,
         ]);
+
+        // Marquer tous les messages de l'autre utilisateur comme lus
+        $conversation = Conversation::find($request->conversation_id);
+        $unreadMessages = $conversation->messages()
+            ->where('user_id', '!=', Auth::id())
+            ->whereDoesntHave('readers', function ($query) {
+                $query->where('user_id', Auth::id());
+            })
+            ->get();
+
+        foreach ($unreadMessages as $unreadMessage) {
+            $unreadMessage->markAsReadBy(Auth::id());
+        }
 
         broadcast(new MessageSent($message))->toOthers();
 

@@ -16,6 +16,21 @@ class ChannelController extends Controller
     public function dashboard()
     {
         $user = Auth::user();
+
+        // Rediriger les comptes de test vers leur channel de test
+        if ($user->role === 'test') {
+            $testConversation = $user->conversations()
+                ->where('type', 'private')
+                ->first();
+            
+            if ($testConversation) {
+                return redirect()->route('channel.view', $testConversation->id);
+            }else{
+                auth()->logout();
+                return redirect('/login')->with('error', 'Une erreur est survenue avec votre compte de test. Veuillez contacter l\'administrateur.');
+            }
+        }
+
         $channelsPublic = Conversation::where('type', 'global')->get();
         
         // Récupérer la première conversation globale ou rediriger si aucune n'existe

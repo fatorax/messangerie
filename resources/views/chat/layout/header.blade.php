@@ -24,10 +24,12 @@
         </div>
     </div>
     <div class="right">
-        @if(auth()->user()->role == 'admin' || $conversationView->type == 'private')
+        @if(auth()->user()->role == 'admin' || ($conversationView->type == 'private' && $conversationView->users->contains(auth()->user()->id) && auth()->user()->role != 'test'))
             <button onclick="openeditChannelModal()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-ellipsis-vertical-icon lucide-ellipsis-vertical"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>
             </button>
+        @elseif(auth()->user()->role == 'test')
+            <span class="demo">Mode démo</span>
         @endif
     </div>
 </header>

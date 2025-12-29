@@ -18,6 +18,7 @@
             icon: 'success',
             title: 'Succès !',
             text: "{{ session('success') }}",
+            timer: 2000,
         });
         </script>
     @endif
@@ -28,6 +29,7 @@
             icon: 'error',
             title: 'Erreur !',
             text: "{{ session('error') }}",
+            timer: 2000,
         });
         </script>
     @endif

@@ -38,7 +38,7 @@ Route::get('/404', [RGPDController::class, 'page404'])->name('404');
 // Protégé par auth
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/channels', [ChannelController::class, 'dashboard'])->name('dashboard');
-    Route::get('/channels/{id}', [ChannelController::class, 'viewChannel'])->name('channels.view');
+    Route::get('/channels/{id}', [ChannelController::class, 'viewChannel'])->name('channel.view');
     Route::post('/channels/add', [ChannelController::class, 'addchannels'])->name('channels.add');
     Route::post('/channels/edit', [ChannelController::class, 'editchannels'])->name('channels.edit');
     Route::post('/channels/delete', [ChannelController::class, 'deletechannels'])->name('channels.delete');
