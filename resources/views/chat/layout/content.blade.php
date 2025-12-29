@@ -18,6 +18,15 @@
                         @endif
                         <p>{!! nl2br(e($message->content)) !!}</p>
                     </div>
+                    @if($message->user_id == $user->id)
+                        <div class="chat-box-informations-status" data-message-id="{{ $message->id }}">
+                            @if($message->isRead())
+                                <span class="read-status read" title="Lu">Lu</span>
+                            @else
+                                <span class="read-status sent" title="Envoyé">Envoyé</span>
+                            @endif
+                        </div>
+                    @endif
                 </div>
             </div>
         @endforeach

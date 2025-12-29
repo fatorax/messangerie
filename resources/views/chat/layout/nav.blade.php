@@ -18,11 +18,15 @@
             </div>
             <div class="links" id="channelsPublicList">
                 @foreach($channelsPublic as $channel)
-                    <a href="{{ route('channels.view', $channel->id) }}" @class(['link', 'active' => $channel->id == $conversationView->id])>
+                    @php
+                        $unreadCount = $unreadCounts[$channel->id] ?? 0;
+                    @endphp
+                    <a href="{{ route('channels.view', $channel->id) }}" @class(['link', 'active' => $channel->id == $conversationView->id]) data-conversation-id="{{ $channel->id }}">
                         <div class="picture">
                             <img src="{{ asset('storage/users/default.webp') }}" alt="Image de profil">
                         </div>
                         <p>{{ $channel->name }}</p>
+                        <span class="message-counter {{ $unreadCount == 0 ? 'hidden' : '' }}">{{ $unreadCount }}</span>
                     </a>
                 @endforeach
             </div>
@@ -38,13 +42,15 @@
                 @foreach($channelsPrivate as $channel)
                     @php
                         $otherUser = $channel->users->first();
+                        $unreadCount = $unreadCounts[$channel->id] ?? 0;
                     @endphp
-                    <a href="{{ route('channels.view', $channel->id) }}" @class(['link', 'active' => $channel->id == $conversationView->id])>
+                    <a href="{{ route('channels.view', $channel->id) }}" @class(['link', 'active' => $channel->id == $conversationView->id]) data-conversation-id="{{ $channel->id }}">
                         <div class="picture" data-user-id="{{ $otherUser->id }}">
                             <img src="{{ asset('storage/users/' . $otherUser->avatar) }}" alt="Image de profil">
                             <!-- Le rond de connexion sera géré dynamiquement par JS -->
                         </div>
                         <p>{{ $otherUser->username }}</p>
+                        <span class="message-counter {{ $unreadCount == 0 ? 'hidden' : '' }}">{{ $unreadCount }}</span>
                     </a>
                 @endforeach
             </div>

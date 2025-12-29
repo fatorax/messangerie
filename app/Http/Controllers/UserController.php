@@ -40,7 +40,9 @@ class UserController extends Controller
                 $content = file_get_contents($file->getRealPath() ?: $file->getPathname());
                 if ($content !== false) {
                     // supprimer l'ancien avatar
-                    Storage::disk('public')->delete('users/' . $user->avatar);
+                    if ($user->avatar !== 'default.webp') {
+                        Storage::disk('public')->delete('users/' . $user->avatar);
+                    }
                     // ajouter le nouveau avatar
                     $user->avatar = $filename;
                     Storage::disk('public')->put('users/' . $filename, $content);
@@ -84,8 +86,11 @@ class UserController extends Controller
 
     public function deleteAccount()
     {
-        // $user = Auth::user();
-        // $user->delete();
-        // return redirect()->route('login')->with('success', 'Compte supprimé avec succès.');
+        $user = Auth::user();
+        if ($user->avatar !== 'default.webp') {
+            Storage::disk('public')->delete('users/' . $user->avatar);
+        }
+        $user->delete();
+        return redirect()->route('login')->with('success', 'Compte supprimé avec succès.');
     }
 }

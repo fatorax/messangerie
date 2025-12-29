@@ -272,6 +272,22 @@ nav
                         background: rgba(7, 182, 213, 0.2);
                         color: rgba(7, 182, 213, 1);
                     }
+
+                    span.message-counter {
+                        margin-left: auto;
+                        background: rgba(7, 182, 213, 0.2);
+                        color: rgba(7, 182, 213, 1);
+                        font-size: 12px;
+                        line-height: 16px;
+                        font-weight: bold;
+                        padding: 2px 6px;
+                        border-radius: 12px;
+                        font-family: "Roboto", sans-serif;
+
+                        &.hidden {
+                            display: none;
+                        }
+                    }
                 }
 
                 div.param
@@ -705,6 +721,31 @@ nav
                             }
                         }
                     }
+
+                    div.chat-box-informations-status
+                    {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        justify-content: flex-start;
+                        margin-top: 4px;
+
+                        .read-status
+                        {
+                            font-size: 12px;
+                            font-family: "Roboto", sans-serif;
+
+                            &.sent
+                            {
+                                color: rgba(148, 163, 184, 1);
+                            }
+
+                            &.read
+                            {
+                                color: rgba(7, 182, 213, 1);
+                            }
+                        }
+                    }
                 }
 
                 &.active
@@ -745,6 +786,11 @@ nav
                                 background: rgba(7, 182, 213, 1);
                                 border: none;
                             }
+                        }
+
+                        div.chat-box-informations-status
+                        {
+                            align-self: end;
                         }
                     }
                 }

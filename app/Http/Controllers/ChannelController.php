@@ -17,12 +17,29 @@ class ChannelController extends Controller
     {
         $user = Auth::user();
         $channelsPublic = Conversation::where('type', 'global')->get();
-        $conversationView = Conversation::where('id', 1)->first();
+        
+        // Récupérer la première conversation globale ou rediriger si aucune n'existe
+        $conversationView = $channelsPublic->first();
+        
+        if (!$conversationView) {
+            // Créer une conversation globale par défaut si elle n'existe pas
+            $conversationView = Conversation::create([
+                'name' => 'Général',
+                'type' => 'global',
+                'created_by' => $user->id,
+            ]);
+            $channelsPublic = Conversation::where('type', 'global')->get();
+        }
+        
         $messages = $conversationView->messages()
+            ->with('readers')
             ->orderBy('created_at', 'desc')
             ->limit(50)
             ->get()
             ->reverse();
+
+        // Marquer tous les messages de la conversation comme lus
+        $this->markMessagesAsRead($conversationView, $user->id);
         if ($conversationView->type == 'global') {
             $totalMembers = User::count();
         }else{
@@ -35,7 +52,11 @@ class ChannelController extends Controller
                 $query->where('users.id', '!=', $user->id);
             }])
             ->get();
-        return view('chat.dashboard', compact('user', 'channelsPublic', 'conversationView', 'messages', 'totalMembers', 'channelsPrivate'));
+
+        // Compter les messages non lus par conversation
+        $unreadCounts = $this->getUnreadCounts($user->id, $channelsPublic, $channelsPrivate);
+
+        return view('chat.dashboard', compact('user', 'channelsPublic', 'conversationView', 'messages', 'totalMembers', 'channelsPrivate', 'unreadCounts'));
     }
 
     public function viewChannel(int $id)
@@ -53,6 +74,7 @@ class ChannelController extends Controller
 
         $channelsPublic = Conversation::where('type', 'global')->get();
         $messages = $conversationView->messages()
+            ->with('readers')
             ->orderBy('created_at', 'desc')
             ->limit(50)
             ->get()
@@ -69,7 +91,63 @@ class ChannelController extends Controller
                 $query->where('users.id', '!=', $user->id);
             }])
             ->get();
-        return view('chat.dashboard', compact('user', 'channelsPublic', 'conversationView', 'messages', 'totalMembers', 'channelsPrivate'));
+
+        // Marquer tous les messages de la conversation comme lus
+        $this->markMessagesAsRead($conversationView, $user->id);
+
+        // Compter les messages non lus par conversation
+        $unreadCounts = $this->getUnreadCounts($user->id, $channelsPublic, $channelsPrivate);
+
+        return view('chat.dashboard', compact('user', 'channelsPublic', 'conversationView', 'messages', 'totalMembers', 'channelsPrivate', 'unreadCounts'));
+    }
+
+    /**
+     * Marque tous les messages non lus d'une conversation comme lus par l'utilisateur
+     */
+    private function markMessagesAsRead(Conversation $conversation, int $userId): void
+    {
+        // Récupère les messages non lus par cet utilisateur (excluant ses propres messages)
+        $unreadMessages = $conversation->messages()
+            ->where('user_id', '!=', $userId)
+            ->whereDoesntHave('readers', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->get();
+
+        // Marquer chaque message comme lu
+        foreach ($unreadMessages as $message) {
+            $message->markAsReadBy($userId);
+        }
+    }
+
+    /**
+     * Compte les messages non lus par conversation
+     */
+    private function getUnreadCounts(int $userId, $channelsPublic, $channelsPrivate): array
+    {
+        $unreadCounts = [];
+
+        // Pour les channels publics
+        foreach ($channelsPublic as $channel) {
+            $unreadCounts[$channel->id] = $channel->messages()
+                ->where('user_id', '!=', $userId)
+                ->whereDoesntHave('readers', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                })
+                ->count();
+        }
+
+        // Pour les channels privés
+        foreach ($channelsPrivate as $channel) {
+            $unreadCounts[$channel->id] = $channel->messages()
+                ->where('user_id', '!=', $userId)
+                ->whereDoesntHave('readers', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                })
+                ->count();
+        }
+
+        return $unreadCounts;
     }
 
     public function addchannels(Request $request)

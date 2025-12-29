@@ -16,20 +16,24 @@
         <p>Vous y êtes presque, il vous suffit de renseigner votre nouveau mot de passe ci-dessous</p>
         <form method="POST" action="{{ route('reset-password', ['email' => urlencode($email), 'token' => $token]) }}">
             @csrf
-            <div class="form-group">
-                <label for="">Mot de passe</label>
-                <input type="password" name="password" placeholder="Mot de passe">
-                @error('password')
-                    <span class="error">{{ $message }}</span>
-                @enderror
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="">Mot de passe</label>
+                    <input type="password" name="password" placeholder="Mot de passe">
+                    @error('password')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
+                </div>
             </div>
-            <div class="form-group">
-                <label for="">Confirmer le mot de passe</label>
-                <input type="password" name="password-confirm" placeholder="Confirmer le mot de passe">
-                @error('password-confirm')
-                    <span class="error">{{ $message }}</span>
-                @enderror
-            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="">Confirmer le mot de passe</label>
+                    <input type="password" name="password-confirm" placeholder="Confirmer le mot de passe">
+                    @error('password-confirm')
+                        <span class="error">{{ $message }}</span>
+                    @enderror
+                </div>
+                </div>
             <button type="submit">Modifier mon mot de passe</button>
         </form>
         <p>Vous avez retrouvé votre mot de passe ? <a href="{{ route('login') }}">Connexion</a></p>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\AdminController;
@@ -9,8 +10,11 @@ use App\Http\Controllers\RGPDController;
 use App\Http\Controllers\ChannelController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\FriendRequestController;
+use App\Http\Controllers\TestController;
 
 // Authentification
+Route::get('/', [Controller::class, 'index'])->name('index');
+
 Route::get('/inscription', [AuthController::class, 'showRegister'])->name('register');
 Route::post('/inscription', [AuthController::class, 'register'])->name('register.submit');
 
@@ -24,13 +28,12 @@ Route::post('/mot-de-passe-oublie', [AuthController::class, 'forgotPassword'])->
 Route::get('/reinitialiser-mot-de-passe/{email}/{token}', [AuthController::class, 'showResetPassword'])->name('reset-password');
 Route::post('/reinitialiser-mot-de-passe/{email}/{token}', [AuthController::class, 'resetPassword'])->name('reset-password.submit');
 
+Route::get('/essayer-la-messagerie', [TestController::class, 'store'])->name('test');
+Route::post('/essayer-envoyer', [TestController::class, 'send'])->name('test-send');
+
 Route::get('/cgu', [RGPDController::class, 'cgu'])->name('cgu');
 Route::get('/mentions-legales', [RGPDController::class, 'mentionsLegales'])->name('mentions-legales');
 Route::get('/404', [RGPDController::class, 'page404'])->name('404');
-
-Route::get('/', function () {
-    return redirect('/channels');
-});
 
 // Protégé par auth
 Route::group(['middleware' => ['auth', 'verified']], function () {

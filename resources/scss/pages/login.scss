@@ -256,32 +256,6 @@ div.container
     }
 }
 
-div.rgpd
-{
-    position: fixed;
-    bottom: 32px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    gap: 16px;
-
-    a
-    {
-        color: rgba(7, 182, 213, 1);
-        font-size: 14px;
-        line-height: 20px;
-        margin: 0;
-        font-family: "Roboto", sans-serif;
-        text-decoration: none;
-
-        &:hover
-        {
-            text-decoration: underline;
-        }
-    }
-}
-
 // RGPD
 div.container.rgpd
 {

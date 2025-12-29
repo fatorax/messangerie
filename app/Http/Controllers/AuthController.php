@@ -34,7 +34,7 @@ class AuthController extends Controller
 
         $verifyToken = Str::uuid()->toString();
 
-        $profilePicturePath = 'users/default.webp';
+        $profilePicturePath = 'default.webp';
         if ($request->hasFile('profile-picture')) {
             $file = $request->file('profile-picture');
             if ($file && $file->isValid()) {
@@ -102,22 +102,23 @@ class AuthController extends Controller
 
     public function showForgotPassword()
     {
-        return view('auth.forgot-password');
+        return view('index');
     }
 
     public function forgotPassword(Request $request)
     {
         $user = User::where('email', $request->email)->first();
+
         if ($user) {
             $token = Str::uuid()->toString();
             DB::table('password_reset_tokens')->updateOrInsert(
-                ['email' => $user->email], // condition pour vérifier si ça existe
+                ['email' => $user->email],
                 [
                     'token' => $token,
                     'created_at' => now(),
                 ]
             );
-            Mail::to($user->email)->send(new ForgotPassword($user->email, $token));
+            Mail::to($user->email)->send(new ForgotPassword($user, $token));
             return redirect()->route('login')->with('success', 'Un email vous a été envoyé pour vous permettre de réinitialiser votre mot de passe');
         }
     }
@@ -141,9 +142,4 @@ class AuthController extends Controller
 
         return redirect()->route('reset-password')->with('error', 'Ce lien de réinitialisation de mot de passe est invalide');
     }
-
-    // public function parametres()
-    // {
-    //     return view('auth.parametres');
-    // }
 }

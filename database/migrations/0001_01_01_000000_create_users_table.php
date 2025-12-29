@@ -22,7 +22,6 @@ return new class extends Migration
             $table->string('verify_token')->default(null)->nullable();
             $table->string('password');
             $table->string('role', 20)->default('user');
-            $table->boolean('is_connected')->default(false);
             $table->rememberToken();
             $table->timestamps();
         });

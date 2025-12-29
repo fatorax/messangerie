@@ -58,10 +58,6 @@
             <button type="submit">Connexion</button>
         </form>
         <p>Vous n'avez pas de compte ? <a href="{{ route('register') }}">Inscrivez-vous</a></p>
-        <div class="rgpd">
-            <a href="{{ route('mentions-legales') }}">Mentions légales</a>
-            <a href="{{ route('cgu') }}">Conditions générales d'utilisation</a>
-        </div>
     </div>
 </body>
 </html>

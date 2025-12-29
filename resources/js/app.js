@@ -58,6 +58,7 @@ window.Echo.private(`chat.${conversationId}`)
         if (currentUserId && senderId && String(senderId) === String(currentUserId)) {
             wrapper.classList.add('active');
         }
+        
         // Pas de $user->id ici, donc pas de coloration "active" côté JS
         const picDiv = document.createElement('div');
         picDiv.className = 'chat-box-picture';
@@ -85,6 +86,20 @@ window.Echo.private(`chat.${conversationId}`)
         msgContainer.appendChild(p);
         infoDiv.appendChild(nameDiv);
         infoDiv.appendChild(msgContainer);
+        
+        // Ajoute le statut "Lu" pour ses propres messages
+        if (currentUserId && senderId && String(senderId) === String(currentUserId)) {
+            const statusDiv = document.createElement('div');
+            statusDiv.className = 'chat-box-informations-status';
+            statusDiv.setAttribute('data-message-id', messageId);
+            const statusSpan = document.createElement('span');
+            statusSpan.className = 'read-status sent';
+            statusSpan.title = 'Envoyé';
+            statusSpan.textContent = 'Envoyé';
+            statusDiv.appendChild(statusSpan);
+            infoDiv.appendChild(statusDiv);
+        }
+        
         wrapper.appendChild(picDiv);
         wrapper.appendChild(infoDiv);
         chatBox.appendChild(wrapper);
@@ -216,6 +231,45 @@ if (currentUserId && window.Echo) {
                     friendRequestCounter.textContent = parseInt(friendRequestCounter.textContent) - 1;
                     if(parseInt(friendRequestCounter.textContent) <= 0){
                         friendRequestCounter.classList.add('hidden');
+                    }
+                }
+            }
+        })
+        .listen('.MessageSent', (e) => {
+            // Notification de nouveau message reçu sur le canal utilisateur
+            const messageConversationId = e.conversation_id;
+            
+            // Ne rien faire si c'est la conversation actuelle (déjà géré par le canal chat.X)
+            if (String(messageConversationId) === String(conversationId)) {
+                return;
+            }
+            
+            // Incrémenter le compteur sur le lien de la conversation
+            const link = document.querySelector(`[href$='/channels/${messageConversationId}']`);
+            if (link) {
+                let counter = link.querySelector('.message-counter');
+                if (counter) {
+                    const currentCount = parseInt(counter.textContent) || 0;
+                    counter.textContent = currentCount + 1;
+                    counter.classList.remove('hidden');
+                }
+            }
+        })
+        .listen('.MessageRead', (e) => {
+            // Notification que notre message a été lu
+            const messageId = e.message_id;
+            const conversationIdRead = e.conversation_id;
+            
+            // Si on est sur la conversation concernée, mettre à jour le statut du message
+            if (String(conversationIdRead) === String(conversationId)) {
+                const statusDiv = document.querySelector(`.chat-box-informations-status[data-message-id="${messageId}"]`);
+                if (statusDiv) {
+                    const statusSpan = statusDiv.querySelector('.read-status');
+                    if (statusSpan && statusSpan.classList.contains('sent')) {
+                        statusSpan.classList.remove('sent');
+                        statusSpan.classList.add('read');
+                        statusSpan.textContent = 'Lu';
+                        statusSpan.title = 'Lu';
                     }
                 }
             }
