@@ -97,12 +97,12 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return redirect()->route('login');
+        return redirect()->route('index');
     }
 
     public function showForgotPassword()
     {
-        return view('index');
+        return view('auth.forgot-password');
     }
 
     public function forgotPassword(Request $request)

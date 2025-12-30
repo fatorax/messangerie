@@ -25,6 +25,33 @@ body {
     font-size: 14px;
 }
 
+a.back
+{
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    background: transparent;
+    border: none;
+    color: rgba(248, 250, 252, 1);
+    padding: 12px;
+    border-radius: 16px;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+    font-weight: bold;
+
+    &:hover
+    {
+        color: rgba(7, 182, 213, 1);
+    }
+}
+
 div.container
 {
     display: flex;
@@ -32,6 +59,11 @@ div.container
     align-items: center;
     justify-content: center;
     height: 100vh;
+
+    @media (max-width: 840px) {
+        position: absolute;
+        top: 120px;
+    }
 
     &.login-container
     {
@@ -43,6 +75,7 @@ div.container
 
     h1
     {
+        max-width: 90%;
         background: linear-gradient(
             to right,
             vars.$linear-text-color-start 30%,
@@ -62,6 +95,7 @@ div.container
     }
 
     p {
+        max-width: 90%;
         color: rgba(148, 163, 184, 1);
         font-size: 16px;
         line-height: 24px;
@@ -76,12 +110,16 @@ div.container
         gap: 24px;
         padding: 32px;
         width: 800px;
-        max-width: 90%;
+        max-width: 90vw;
 
         .form-row {
             display: flex;
             flex-direction: row;
             gap: 24px;
+
+            @media (max-width: 840px) {
+                flex-direction: column;
+            }
 
             div.form-group
             {
@@ -293,11 +331,16 @@ div.container.rgpd
     }
 
     a {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
         color: rgba(248, 250, 252, 1);
         font-size: 16px;
-        line-height: 24px;
         width: fit-content;
         text-wrap: wrap;
+        margin-bottom: 16px;
 
         &:hover
         {

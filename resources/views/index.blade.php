@@ -49,8 +49,8 @@
             </p>
             <h1>Bienvenue sur {{ config('app.name') }}</h1>
             <p class="presentation">Je m’appelle Romain et j’ai développé cette application afin de mettre en avant mes compétences en développement web, aussi bien côté front-end que back-end.</p>
-            <p class="presentation">Ce projet propose une messagerie moderne avec échanges en temps réel, conversations publiques et privées, ainsi que différentes fonctionnalités pensées pour offrir une expérience fluide et intuitive.</p>
-            <p class="presentation">Le bouton « Essayer la messagerie », disponible juste en dessous, permet de créer automatiquement deux comptes de test afin de découvrir et tester librement l’ensemble des fonctionnalités de la messagerie.</p>
+            <p class="presentation">Ce projet propose une messagerie moderne avec des échanges en temps réel, des conversations publiques et privées, ainsi que différentes fonctionnalités pensées pour offrir une expérience fluide et intuitive.</p>
+            <p class="presentation">Le bouton « Essayer la messagerie », disponible juste en dessous, permet de créer automatiquement deux comptes de démo afin de découvrir et de tester librement l’ensemble des fonctionnalités de la messagerie.</p>
             <a href="{{ route('test') }}" class="test">Essayer la messagerie</a>
             <div class="cards">
                 <div class="card">

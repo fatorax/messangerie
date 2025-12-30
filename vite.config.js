@@ -15,6 +15,7 @@ export default defineConfig({
     plugins: [
         laravel({
             input: [
+                'resources/scss/pages/index.scss',
                 'resources/scss/pages/login.scss',
                 'resources/scss/pages/dashboard/dashboard.scss',
                 'resources/scss/pages/dashboard/modal/app.scss',
