@@ -65,8 +65,8 @@ class TestController extends Controller
         $password1 = Str::random(10);
         $password2 = Str::random(10);
 
-        $email1 = $tmpName1 . '@test.com';
-        $email2 = $tmpName2 . '@test.com';
+        $email1 = $tmpName1 . '@demo.com';
+        $email2 = $tmpName2 . '@demo.com';
 
         $user1 = User::create([
             'firstname' => $tmpName1,

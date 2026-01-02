@@ -21,6 +21,9 @@ class AuthController extends Controller
 {
     public function showRegister()
     {
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
         return view('auth.register');
     }
 
@@ -77,11 +80,18 @@ class AuthController extends Controller
 
     public function showLogin()
     {
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
         return view('auth.login');
     }
 
     public function login(LoginRequest $request)
     {
+        if (Auth::check()) {
+            return redirect()->route('dashboard');
+        }
+
         $user = User::where('email', $request->email)->first();
 
         

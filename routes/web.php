@@ -28,8 +28,8 @@ Route::post('/mot-de-passe-oublie', [AuthController::class, 'forgotPassword'])->
 Route::get('/reinitialiser-mot-de-passe/{email}/{token}', [AuthController::class, 'showResetPassword'])->name('reset-password');
 Route::post('/reinitialiser-mot-de-passe/{email}/{token}', [AuthController::class, 'resetPassword'])->name('reset-password.submit');
 
-Route::get('/essayer-la-messagerie', [TestController::class, 'store'])->name('test');
-Route::post('/essayer-envoyer', [TestController::class, 'send'])->name('test-send');
+Route::get('/demo', [TestController::class, 'store'])->name('test');
+Route::post('/demo/send', [TestController::class, 'send'])->name('test-send');
 
 Route::get('/cgu', [RGPDController::class, 'cgu'])->name('cgu');
 Route::get('/mentions-legales', [RGPDController::class, 'mentionsLegales'])->name('mentions-legales');
