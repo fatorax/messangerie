@@ -38,7 +38,7 @@
     <section class="settings">
         <a href="{{ route('dashboard') }}" class="back">Retour au tableau de bord</a>
         <h1>Paramètres</h1>
-        <form method="POST" action="{{ route('user.settings.update') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ route('settings.update') }}" enctype="multipart/form-data">
             @csrf
             <h2>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -91,8 +91,8 @@
             <button type="submit">Sauvegarder Profile</button>
         </form>
         <div class="links">
-            <a href="{{ route('user.password.change') }}" class="info">Modifier le mot de passe</a>
-            <a href="{{ route('user.delete') }}" id="delete-account-link" class="danger">Supprimer le compte</a>
+            <a href="{{ route('password.edit') }}" class="info">Modifier le mot de passe</a>
+            <a href="{{ route('settings.destroy') }}" id="delete-account-link" class="danger">Supprimer le compte</a>
         </div>
     </section>
     <script>
@@ -112,7 +112,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             // Rediriger vers la route de suppression du compte
-                            window.location.href = "{{ route('user.delete') }}";
+                            window.location.href = "{{ route('settings.destroy') }}";
                         }
                     });
                 });

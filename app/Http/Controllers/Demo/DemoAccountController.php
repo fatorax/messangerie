@@ -1,24 +1,27 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Demo;
 
+use App\Http\Controllers\Controller;
+use App\Mail\TestMail;
+use App\Models\Conversation;
+use App\Models\TestAccount;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use App\Mail\TestMail;
-use App\Models\User;
-use App\Models\TestAccount;
-use App\Models\Conversation;
 use Illuminate\Support\Str;
 
-class TestController extends Controller
+class DemoAccountController extends Controller
 {
-    public function store()
+    // Affiche le formulaire de demande de comptes de démo
+    public function create()
     {
         return view('test');
     }
 
-    public function send(Request $request)
+    // Crée les comptes de démo et envoie l'email
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'email' => 'required|email',
@@ -77,7 +80,7 @@ class TestController extends Controller
             'password' => Hash::make($password1),
             'email_verified_at' => now(),
             'verify_token' => null,
-            'role' => 'test',
+            'role' => 'demo',
         ]);
 
         $user2 = User::create([
@@ -89,7 +92,7 @@ class TestController extends Controller
             'password' => Hash::make($password2),
             'email_verified_at' => now(),
             'verify_token' => null,
-            'role' => 'test',
+            'role' => 'demo',
         ]);
 
         // Créer une conversation entre les deux comptes de test

@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Chat;
 
-use Illuminate\Http\Request;
-use App\Models\Message;
-use App\Models\Conversation;
-use Illuminate\Support\Facades\Auth;
-use App\Events\MessageSent;
+use App\Http\Controllers\Controller;
 use App\Events\MessageDeleted;
-use App\Events\MessageRead;
+use App\Events\MessageSent;
+use App\Models\Conversation;
+use App\Models\Message;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
-    public function messageSent(Request $request)
+    // Envoie un nouveau message
+    public function store(Request $request)
     {
         $request->validate([
             'conversation_id' => 'required|integer',
@@ -43,7 +44,8 @@ class MessageController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function delete(Request $request)
+    // Supprime un message
+    public function destroy(Request $request)
     {
         $request->validate([
             'message_id' => 'required|integer|exists:messages,id',

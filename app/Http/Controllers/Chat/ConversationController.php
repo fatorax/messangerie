@@ -1,31 +1,33 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Chat;
 
+use App\Http\Controllers\Controller;
+use App\Events\ConversationCreate;
+use App\Events\ConversationDeleted;
+use App\Events\ConversationUpdate;
+use App\Models\Conversation;
+use App\Models\FriendRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Conversation;
-use App\Models\User;
-use App\Events\ConversationDeleted;
-use App\Events\ConversationCreate;
-use App\Events\ConversationUpdate;
-use App\Models\FriendRequest;
 
-class ChannelController extends Controller
+class ConversationController extends Controller
 {
-    public function dashboard()
+    // Affiche le dashboard des conversations
+    public function index()
     {
         $user = Auth::user();
 
         // Rediriger les comptes de test vers leur channel de test
-        if ($user->role === 'test') {
+        if ($user->role === 'demo') {
             $testConversation = $user->conversations()
                 ->where('type', 'private')
                 ->first();
             
             if ($testConversation) {
                 return redirect()->route('channel.view', $testConversation->id);
-            }else{
+            } else {
                 auth()->logout();
                 return redirect('/login')->with('error', 'Une erreur est survenue avec votre compte de test. Veuillez contacter l\'administrateur.');
             }
@@ -57,7 +59,7 @@ class ChannelController extends Controller
         $this->markMessagesAsRead($conversationView, $user->id);
         if ($conversationView->type == 'global') {
             $totalMembers = User::count();
-        }else{
+        } else {
             $totalMembers = $conversationView->users->count();
         }
         $channelsPrivate = $user->conversations()
@@ -74,7 +76,8 @@ class ChannelController extends Controller
         return view('chat.dashboard', compact('user', 'channelsPublic', 'conversationView', 'messages', 'totalMembers', 'channelsPrivate', 'unreadCounts'));
     }
 
-    public function viewChannel(int $id)
+    // Affiche une conversation spécifique
+    public function show(int $id)
     {
         $user = Auth::user();
         $conversationView = Conversation::find($id);
@@ -116,56 +119,8 @@ class ChannelController extends Controller
         return view('chat.dashboard', compact('user', 'channelsPublic', 'conversationView', 'messages', 'totalMembers', 'channelsPrivate', 'unreadCounts'));
     }
 
-    /**
-     * Marque tous les messages non lus d'une conversation comme lus par l'utilisateur
-     */
-    private function markMessagesAsRead(Conversation $conversation, int $userId): void
-    {
-        // Récupère les messages non lus par cet utilisateur (excluant ses propres messages)
-        $unreadMessages = $conversation->messages()
-            ->where('user_id', '!=', $userId)
-            ->whereDoesntHave('readers', function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            })
-            ->get();
-
-        // Marquer chaque message comme lu
-        foreach ($unreadMessages as $message) {
-            $message->markAsReadBy($userId);
-        }
-    }
-
-    /**
-     * Compte les messages non lus par conversation
-     */
-    private function getUnreadCounts(int $userId, $channelsPublic, $channelsPrivate): array
-    {
-        $unreadCounts = [];
-
-        // Pour les channels publics
-        foreach ($channelsPublic as $channel) {
-            $unreadCounts[$channel->id] = $channel->messages()
-                ->where('user_id', '!=', $userId)
-                ->whereDoesntHave('readers', function ($query) use ($userId) {
-                    $query->where('user_id', $userId);
-                })
-                ->count();
-        }
-
-        // Pour les channels privés
-        foreach ($channelsPrivate as $channel) {
-            $unreadCounts[$channel->id] = $channel->messages()
-                ->where('user_id', '!=', $userId)
-                ->whereDoesntHave('readers', function ($query) use ($userId) {
-                    $query->where('user_id', $userId);
-                })
-                ->count();
-        }
-
-        return $unreadCounts;
-    }
-
-    public function addchannels(Request $request)
+    // Crée une nouvelle conversation
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -186,7 +141,8 @@ class ChannelController extends Controller
         ]);
     }
 
-    public function editchannels(Request $request)
+    // Met à jour une conversation
+    public function update(Request $request)
     {
         $validated = $request->validate([
             'id' => 'required|integer|exists:conversations,id',
@@ -204,7 +160,8 @@ class ChannelController extends Controller
         ]);
     }
 
-    public function deletechannels(Request $request)
+    // Supprime une conversation
+    public function destroy(Request $request)
     {
         $id = $request->input('id');
         $conversation = Conversation::findOrFail($id);
@@ -229,7 +186,8 @@ class ChannelController extends Controller
         return response()->json(['success' => true]);
     }
 
-    public function searchUserAdd(Request $request)
+    // Recherche un utilisateur pour l'ajouter
+    public function searchUser(Request $request)
     {
         $validated = $request->validate([
             'search' => 'required|string|max:255',
@@ -276,5 +234,44 @@ class ChannelController extends Controller
         ]);
     }
 
-    
+    // Marque tous les messages non lus d'une conversation comme lus par l'utilisateur
+    private function markMessagesAsRead(Conversation $conversation, int $userId): void
+    {
+        $unreadMessages = $conversation->messages()
+            ->where('user_id', '!=', $userId)
+            ->whereDoesntHave('readers', function ($query) use ($userId) {
+                $query->where('user_id', $userId);
+            })
+            ->get();
+
+        foreach ($unreadMessages as $message) {
+            $message->markAsReadBy($userId);
+        }
+    }
+
+    // Compte les messages non lus par conversation
+    private function getUnreadCounts(int $userId, $channelsPublic, $channelsPrivate): array
+    {
+        $unreadCounts = [];
+
+        foreach ($channelsPublic as $channel) {
+            $unreadCounts[$channel->id] = $channel->messages()
+                ->where('user_id', '!=', $userId)
+                ->whereDoesntHave('readers', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                })
+                ->count();
+        }
+
+        foreach ($channelsPrivate as $channel) {
+            $unreadCounts[$channel->id] = $channel->messages()
+                ->where('user_id', '!=', $userId)
+                ->whereDoesntHave('readers', function ($query) use ($userId) {
+                    $query->where('user_id', $userId);
+                })
+                ->count();
+        }
+
+        return $unreadCounts;
+    }
 }

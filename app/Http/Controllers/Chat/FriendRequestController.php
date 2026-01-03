@@ -1,21 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Chat;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Models\FriendRequest;
-use App\Models\User;
-use App\Models\Conversation;
+use App\Http\Controllers\Controller;
 use App\Events\ConversationCreate;
 use App\Events\FriendRequestAdded;
 use App\Events\FriendRequestRemoved;
-use Illuminate\Support\Facades\Log;
+use App\Models\Conversation;
+use App\Models\FriendRequest;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FriendRequestController extends Controller
 {
-    // Envoyer une demande d'ami
-    public function send(Request $request)
+    // Envoie une demande d'ami
+    public function store(Request $request)
     {
         $validated = $request->validate([
             'search' => 'required|string|max:255',
@@ -78,7 +78,7 @@ class FriendRequestController extends Controller
         ]);
     }
 
-    // Accepter une demande d'ami
+    // Accepte une demande d'ami
     public function accept(Request $request)
     {
         $validated = $request->validate([
@@ -130,7 +130,7 @@ class FriendRequestController extends Controller
         ]);
     }
 
-    // Rejeter une demande d'ami
+    // Rejette une demande d'ami
     public function reject(Request $request)
     {
         $validated = $request->validate([
@@ -159,8 +159,8 @@ class FriendRequestController extends Controller
         ]);
     }
 
-    // Récupérer les demandes d'ami en attente
-    public function pendingRequests()
+    // Récupère les demandes d'ami en attente
+    public function index()
     {
         $currentUserId = Auth::id();
 
@@ -181,7 +181,7 @@ class FriendRequestController extends Controller
         ]);
     }
 
-    // Annuler une demande d'ami
+    // Annule une demande d'ami
     public function cancel(Request $request)
     {
         $validated = $request->validate([

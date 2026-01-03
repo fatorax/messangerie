@@ -51,7 +51,7 @@
             <p class="presentation">Je m’appelle Romain et j’ai développé cette application afin de mettre en avant mes compétences en développement web, aussi bien côté front-end que back-end.</p>
             <p class="presentation">Ce projet propose une messagerie moderne avec des échanges en temps réel, des conversations publiques et privées, ainsi que différentes fonctionnalités pensées pour offrir une expérience fluide et intuitive.</p>
             <p class="presentation">Le bouton « Essayer la messagerie », disponible juste en dessous, permet de créer automatiquement deux comptes de démo afin de découvrir et de tester librement l’ensemble des fonctionnalités de la messagerie.</p>
-            <a href="{{ route('test') }}" class="test">Essayer la messagerie</a>
+            <a href="{{ route('demo') }}" class="test">Essayer la messagerie</a>
             <div class="cards">
                 <div class="card">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-icon lucide-message-circle"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/></svg>

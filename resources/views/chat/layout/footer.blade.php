@@ -1,5 +1,5 @@
 <footer>
-    <form id="chat-form" data-route="{{ route('message-sent') }}">
+    <form id="chat-form" data-route="{{ route('message.store') }}">
         @csrf
         <input type="hidden" name="conversation_id" value="{{ $conversationView->id }}">
         <textarea name="content" id="message-input" rows="1"></textarea>

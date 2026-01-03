@@ -1,21 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
-class UserController extends Controller
+class SettingsController extends Controller
 {
-    public function settings()
+    // Affiche les paramètres
+    public function index()
     {
         $user = Auth::user();
         return view('user.settings', compact('user'));
     }
 
-    public function updateSettings(Request $request)
+    // Met à jour les paramètres
+    public function update(Request $request)
     {
         $user = Auth::user();
 
@@ -58,33 +60,8 @@ class UserController extends Controller
         return redirect()->route('settings')->with('success', 'Paramètres mis à jour avec succès.');
     }
 
-    public function changePassword()
-    {
-        return view('user.change_password');
-    }
-
-    public function updatePassword(Request $request)
-    {
-        $user = Auth::user();
-
-        try {
-            $validated = $request->validate([
-                'password' => 'required|string|min:8|confirmed',
-            ]);
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->route('settings')
-                ->withErrors($e->validator)
-                ->withInput()
-                ->with('error', 'Erreur de validation. Veuillez corriger les champs.');
-        }
-
-        $user->password = Hash::make($request->input('password'));
-        $user->save();
-
-        return redirect()->route('settings')->with('success', 'Mot de passe mis à jour avec succès.');
-    }
-
-    public function deleteAccount()
+    // Supprime le compte
+    public function destroy()
     {
         $user = Auth::user();
         if ($user->avatar !== 'default.webp') {

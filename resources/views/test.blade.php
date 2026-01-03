@@ -40,7 +40,7 @@
     <div class="container login-container">
         <h1>Bienvenue sur le chat</h1>
         <p>Toutes les informations vous seront envoyées par email</p>
-        <form method="POST" action="{{ route('test-send') }}">
+        <form method="POST" action="{{ route('demo.store') }}">
             @csrf
             <div class="form-row">
                 <div class="form-group">

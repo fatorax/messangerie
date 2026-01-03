@@ -33,19 +33,20 @@ class ExampleCommand extends Command
         try {
             $this->info('La commande de suppression des comptes de démonstration commencée...');
 
+            // Récupérer les comptes de test expirés
             $accounts = TestAccount::where('expires_at', '<', Carbon::now())->get();
 
             foreach ($accounts as $account) {
                 // Suppression des utilisateurs associés, conversations et messages
                 if ($account->user1) {
-                    $account->user1->delete();
                     $account->user1->conversations()->delete();
                     $account->user1->messages()->delete();
+                    $account->user1->delete();
                 }
                 if ($account->user2) {
-                    $account->user2->delete();
                     $account->user2->conversations()->delete();
                     $account->user2->messages()->delete();
+                    $account->user2->delete();
                 }
 
                 // Affichage dans la console
