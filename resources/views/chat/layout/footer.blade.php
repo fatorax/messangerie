@@ -1,4 +1,4 @@
-<footer>
+<footer class="footer-channel">
     <form id="chat-form" data-route="{{ route('message.store') }}">
         @csrf
         <input type="hidden" name="conversation_id" value="{{ $conversationView->id }}">

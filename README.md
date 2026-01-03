@@ -92,6 +92,7 @@ Ce projet a été réalisé dans le cadre de ma recherche d'**alternance en dév
 | **SCSS** | Styles personnalisés |
 | **Laravel Echo** | Client WebSockets |
 | **SweetAlert2** | Modales et alertes |
+| **Driver.js** | Guide interactif d'onboarding |
 | **Vite** | Build tool |
 
 ### Outils

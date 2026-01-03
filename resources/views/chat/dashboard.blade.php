@@ -14,6 +14,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="conversation-id" content="{{ $conversationView->id }}">
     <meta name="current-user-id" content="{{ $user->id }}">
+    <meta name="user-role" content="{{ $user->role }}">
     @vite([
         'resources/scss/pages/dashboard/dashboard.scss',
         'resources/scss/pages/dashboard/modal/app.scss',
@@ -24,6 +25,7 @@
         'resources/js/dashboard/FriendRequestViewModal.js',
         'resources/js/dashboard/DeleteMessageModal.js',
         'resources/js/dashboard/chatForm.js',
+        'resources/js/dashboard/driverTour.js',
         'resources/js/app.js',
     ])
 </head>

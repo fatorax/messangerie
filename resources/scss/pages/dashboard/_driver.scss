@@ -1,0 +1,219 @@
+// ============================================
+// Custom Driver.js Theme - Messangerie
+// ============================================
+
+// Variables du thème
+$driver-bg: rgba(19, 29, 52, 0.98);
+$driver-bg-gradient: linear-gradient(135deg, rgba(19, 29, 52, 1) 0%, rgba(30, 41, 70, 1) 100%);
+$driver-border: rgba(7, 182, 213, 0.3);
+$driver-border-hover: rgba(7, 182, 213, 0.6);
+$driver-text: #ffffff;
+$driver-text-secondary: rgba(255, 255, 255, 0.7);
+$driver-accent: rgba(7, 182, 213, 1);
+$driver-accent-secondary: rgba(146, 52, 234, 1);
+$driver-accent-tertiary: rgba(249, 78, 180, 1);
+$driver-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(7, 182, 213, 0.15);
+
+// Overlay - transparent pour voir le contenu en dessous
+.driver-overlay {
+    background: rgba(15, 23, 41, 0.5) !important;
+}
+
+// Popover principal
+.driver-popover {
+    background: $driver-bg-gradient !important;
+    border: 1px solid $driver-border !important;
+    border-radius: 16px !important;
+    box-shadow: $driver-shadow !important;
+    padding: 0 !important;
+    min-width: 320px !important;
+    max-width: 400px !important;
+    overflow: hidden;
+}
+
+// Flèche du popover
+.driver-popover-arrow {
+    border: none !important;
+    
+    &-side-left, &-side-right, &-side-top, &-side-bottom {
+        &::before, &::after {
+            border-color: transparent !important;
+        }
+    }
+    
+    &-side-left::after {
+        border-left-color: rgba(19, 29, 52, 0.98) !important;
+    }
+    
+    &-side-right::after {
+        border-right-color: rgba(19, 29, 52, 0.98) !important;
+    }
+    
+    &-side-top::after {
+        border-top-color: rgba(19, 29, 52, 0.98) !important;
+    }
+    
+    &-side-bottom::after {
+        border-bottom-color: rgba(19, 29, 52, 0.98) !important;
+    }
+}
+
+// Titre
+.driver-popover-title {
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    color: $driver-text !important;
+    padding: 20px 20px 8px 20px !important;
+    margin: 0 !important;
+    line-height: 1.4 !important;
+    background: transparent !important;
+}
+
+// Description
+.driver-popover-description {
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 0.95rem !important;
+    font-weight: 400 !important;
+    color: $driver-text-secondary !important;
+    padding: 0 20px 16px 20px !important;
+    margin: 0 !important;
+    line-height: 1.6 !important;
+}
+
+// Barre de progression
+.driver-popover-progress-text {
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 0.75rem !important;
+    color: $driver-text-secondary !important;
+    padding: 0 20px !important;
+    margin-bottom: 12px !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+// Footer avec les boutons
+.driver-popover-footer {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 16px 20px !important;
+    background: rgba(0, 0, 0, 0.2) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+    gap: 12px !important;
+}
+
+// Boutons
+.driver-popover-footer button {
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    padding: 10px 20px !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
+    border: none !important;
+    outline: none !important;
+    
+    &:focus {
+        box-shadow: 0 0 0 3px rgba(7, 182, 213, 0.3) !important;
+    }
+}
+
+// Bouton Fermer
+.driver-popover-close-btn {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: $driver-text-secondary !important;
+    border-radius: 50% !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    
+    &:hover {
+        background: rgba(255, 255, 255, 0.2) !important;
+        color: $driver-text !important;
+        transform: scale(1.1) !important;
+    }
+}
+
+// Bouton Précédent
+.driver-popover-prev-btn {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: $driver-text !important;
+    
+    &:hover {
+        background: rgba(255, 255, 255, 0.2) !important;
+    }
+    
+    &:disabled {
+        opacity: 0.4 !important;
+        cursor: not-allowed !important;
+    }
+}
+
+// Bouton Suivant / Terminer
+.driver-popover-next-btn {
+    background: linear-gradient(135deg, $driver-accent 0%, $driver-accent-secondary 100%) !important;
+    color: white !important;
+    box-shadow: 0 4px 15px rgba(7, 182, 213, 0.3) !important;
+    
+    &:hover {
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(7, 182, 213, 0.4) !important;
+    }
+    
+    &:active {
+        transform: translateY(0) !important;
+    }
+}
+
+// Animation d'entrée
+@keyframes driver-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.driver-popover {
+    animation: driver-fade-in 0.3s ease-out !important;
+}
+
+// Responsive
+@media (max-width: 480px) {
+    .driver-popover {
+        min-width: 280px !important;
+        max-width: 320px !important;
+    }
+    
+    .driver-popover-title {
+        font-size: 1.1rem !important;
+        padding: 16px 16px 6px 16px !important;
+    }
+    
+    .driver-popover-description {
+        font-size: 0.9rem !important;
+        padding: 0 16px 12px 16px !important;
+    }
+    
+    .driver-popover-footer {
+        padding: 12px 16px !important;
+    }
+    
+    .driver-popover-footer button {
+        padding: 8px 16px !important;
+        font-size: 0.8rem !important;
+    }
+}

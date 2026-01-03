@@ -27,6 +27,7 @@ export default defineConfig({
                 'resources/js/dashboard/searchUserAddModal.js',
                 'resources/js/dashboard/FriendRequestViewModal.js',
                 'resources/js/dashboard/DeleteMessageModal.js',
+                'resources/js/dashboard/driverTour.js',
                 'resources/js/auth/profilePicturePreview.js',
                 'resources/js/dashboard/chatForm.js',
                 'resources/js/app.js',

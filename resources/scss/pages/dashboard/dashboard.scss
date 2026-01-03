@@ -1,5 +1,6 @@
 @use '../../base/variables' as vars;
 @use '../../base/app' as *;
+@use './driver';
 
 html {
     background: vars.$linear-bg-color-start;
