@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth', 'verified', 'block.mobile']], function ()
     Route::post('/channels/add', [ConversationController::class, 'store'])->name('channels.store');
     Route::post('/channels/edit', [ConversationController::class, 'update'])->name('channels.update');
     Route::post('/channels/delete', [ConversationController::class, 'destroy'])->name('channels.destroy');
+    Route::post('/channels/delete-image', [ConversationController::class, 'deleteImage'])->name('channels.deleteImage');
     Route::post('/users/search', [ConversationController::class, 'searchUser'])->name('users.search');
 
     // Messages

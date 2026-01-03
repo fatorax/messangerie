@@ -29,7 +29,7 @@
                             @endphp
                             <a href="{{ route('channel.view', $channel->id) }}" @class(['link', 'active' => $channel->id == $conversationView->id]) data-conversation-id="{{ $channel->id }}">
                                 <div class="picture">
-                                    <img src="{{ asset('storage/users/default.webp') }}" alt="Image de profil">
+                                    <img src="{{ $channel->image ? asset('storage/channels/' . $channel->image) : asset('storage/users/default.webp') }}" alt="Image du channel">
                                 </div>
                                 <p>{{ $channel->name }}</p>
                                 <span class="message-counter {{ $unreadCount == 0 ? 'hidden' : '' }}">{{ $unreadCount }}</span>

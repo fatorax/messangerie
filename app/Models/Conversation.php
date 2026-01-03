@@ -8,6 +8,7 @@ class Conversation extends Model
 {
     protected $fillable = [
         'name',
+        'image',
         'type',
         'created_by',
         'is_encrypted',

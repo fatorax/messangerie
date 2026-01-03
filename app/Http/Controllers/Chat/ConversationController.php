@@ -11,6 +11,7 @@ use App\Models\FriendRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ConversationController extends Controller
 {
@@ -147,10 +148,54 @@ class ConversationController extends Controller
         $validated = $request->validate([
             'id' => 'required|integer|exists:conversations,id',
             'name' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         $channel = Conversation::findOrFail($validated['id']);
-        $channel->update(['name' => $validated['name']]);
+        
+        $updateData = ['name' => $validated['name']];
+        
+        // Gestion de l'upload d'image
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            if ($file && $file->isValid()) {
+                $imageName = $channel->id . '_' . time() . '.' . $file->getClientOriginalExtension();
+                $content = file_get_contents($file->getRealPath() ?: $file->getPathname());
+                if ($content !== false) {
+                    // Supprimer l'ancienne image si elle existe
+                    if ($channel->image) {
+                        Storage::disk('public')->delete('channels/' . $channel->image);
+                    }
+                    // Ajouter la nouvelle image
+                    Storage::disk('public')->put('channels/' . $imageName, $content);
+                    $updateData['image'] = $imageName;
+                }
+            }
+        }
+        
+        $channel->update($updateData);
+
+        event(new ConversationUpdate($channel));
+
+        return response()->json([
+            'success' => true,
+            'channel' => $channel,
+        ]);
+    }
+
+    // Supprime l'image d'une conversation
+    public function deleteImage(Request $request)
+    {
+        $validated = $request->validate([
+            'id' => 'required|integer|exists:conversations,id',
+        ]);
+
+        $channel = Conversation::findOrFail($validated['id']);
+
+        if ($channel->image) {
+            Storage::disk('public')->delete('channels/' . $channel->image);
+            $channel->update(['image' => null]);
+        }
 
         event(new ConversationUpdate($channel));
 
