@@ -16,7 +16,7 @@ window.searchUserAddModal = async function () {
     
     if (!search) {
         errorName.classList.remove('hidden');
-        errorName.textContent = 'Le nom du canal est requis.';
+        errorName.textContent = 'Le nom d\'utilisateur est requis.';
         return;
     }
 
@@ -55,6 +55,6 @@ window.searchUserAddModal = async function () {
 
     } catch (error) {
         errorName.classList.remove('hidden');
-        errorName.textContent = 'Une erreur est survenue lors de la création du canal.';
+        errorName.textContent = 'Une erreur est survenue lors de la recherche.';
     }
 };

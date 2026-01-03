@@ -51,7 +51,7 @@ class RegisterRequest extends FormRequest
             'password.required' => 'Le mot de passe est obligatoire',
             'password-confirm.required' => 'La confirmation du mot de passe est obligatoire',
             'password-confirm.same' => 'Les mots de passe ne correspondent pas',
-            'rgpd.required' => 'Vous devez accepter les CGV',
+            'rgpd.required' => 'Vous devez accepter les CGU',
         ];
     }
 
