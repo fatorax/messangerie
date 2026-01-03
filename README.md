@@ -3,7 +3,6 @@
 [![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
 [![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
 [![Pusher](https://img.shields.io/badge/Pusher-WebSockets-300D4F?style=for-the-badge&logo=pusher&logoColor=white)](https://pusher.com)
-[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
 > Application de messagerie instantanée en temps réel développée avec Laravel et Pusher.
 
@@ -85,14 +84,12 @@ Ce projet a été réalisé dans le cadre de ma recherche d'**alternance en dév
 | **PHP 8.2+** | Langage serveur |
 | **Pusher** | WebSockets temps réel |
 | **MySQL** | Base de données |
-| **Laravel Sanctum** | Authentification API |
 
 ### Front-end
 | Technologie | Utilisation |
 |-------------|-------------|
 | **Blade** | Moteur de templates |
-| **SCSS** | Préprocesseur CSS |
-| **Tailwind CSS** | Framework CSS utilitaire |
+| **SCSS** | Styles personnalisés |
 | **Laravel Echo** | Client WebSockets |
 | **SweetAlert2** | Modales et alertes |
 | **Vite** | Build tool |
@@ -101,7 +98,6 @@ Ce projet a été réalisé dans le cadre de ma recherche d'**alternance en dév
 | Outil | Utilisation |
 |-------|-------------|
 | **Pest** | Tests unitaires et fonctionnels |
-| **Laravel Pint** | Linter PHP |
 | **Git** | Versionning |
 
 ---
@@ -230,10 +226,10 @@ messangerie/
 
 ## 🔮 Évolutions futures
 
+- [ ] Recadrage personnalisé des images uploadées (photo de profil & conversations)
 - [ ] Envoi de fichiers et images dans les messages
 - [ ] Réactions aux messages (emojis)
-- [ ] Notifications push
-- [ ] Mode sombre / clair
+- [ ] Thème sombre / clair
 - [ ] Application mobile (React Native / Flutter)
 - [ ] Chiffrement de bout en bout
 
@@ -251,12 +247,6 @@ Développeur web passionné, actuellement à la recherche d'une **alternance** p
 [![GitHub](https://img.shields.io/badge/GitHub-fatorax-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/fatorax)
 
 </div>
-
----
-
-## 📄 Licence
-
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
 ---
 
