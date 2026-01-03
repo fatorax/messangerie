@@ -58,11 +58,11 @@ class DemoAccountController extends Controller
 
         // Créer de nouveaux comptes de test
         do {
-            $tmpName1 = 'User' . rand(1, 10000);
+            $tmpName1 = 'Utilisateur' . rand(1, 10000);
         } while (User::where('username', $tmpName1)->exists());
 
         do {
-            $tmpName2 = 'User' . rand(1, 10000);
+            $tmpName2 = 'Utilisateur' . rand(1, 10000);
         } while ($tmpName2 === $tmpName1 || User::where('username', $tmpName2)->exists());
 
         $password1 = Str::random(10);
