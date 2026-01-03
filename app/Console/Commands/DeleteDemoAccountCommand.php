@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Log;
 
-class ExampleCommand extends Command
+class DeleteDemoAccountCommand extends Command
 {
     /**
      * The name and signature of the console command.
