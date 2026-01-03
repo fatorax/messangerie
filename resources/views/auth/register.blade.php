@@ -54,7 +54,7 @@
             <div class="form-row">
                 <div class="form-group">
                     <label for="">Pseudonyme</label>
-                    <input type="pseudonyme" name="pseudonyme" placeholder="Pseudonyme" value="{{ old('pseudonyme') }}" required>
+                    <input type="pseudonyme" name="pseudonyme" placeholder="Pseudonyme" value="{{ old('pseudonyme') }}" max="30" required>
                     @error('pseudonyme')
                         <span class="error">{{ $message }}</span>
                     @enderror

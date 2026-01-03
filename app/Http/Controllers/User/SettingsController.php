@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\TestAccount;
+use App\Models\FriendRequest;
+use App\Mail\DemoAccountDeleted;
+use App\Mail\AccountDeleted;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 
 class SettingsController extends Controller
 {
@@ -64,10 +69,69 @@ class SettingsController extends Controller
     public function destroy()
     {
         $user = Auth::user();
+        
+        // Vérifier si c'est un compte démo
+        $testAccount = TestAccount::where('user1_id', $user->id)
+            ->orWhere('user2_id', $user->id)
+            ->first();
+
+        if ($testAccount) {
+            // Supprimer l'autre utilisateur du compte démo
+            $otherUser = $testAccount->user1_id == $user->id ? $testAccount->user2 : $testAccount->user1;
+            
+            if ($otherUser) {
+                $otherUser->conversations()->delete();
+                $otherUser->messages()->delete();
+                
+                if ($otherUser->avatar !== 'default.webp') {
+                    Storage::disk('public')->delete('users/' . $otherUser->avatar);
+                }
+                $otherUser->delete();
+            }
+
+            // Envoyer l'email de notification
+            if ($testAccount->requester_email) {
+                Mail::to($testAccount->requester_email)->send(new DemoAccountDeleted(
+                    $testAccount->username1,
+                    $testAccount->username2
+                ));
+            }
+
+            // Supprimer le TestAccount
+            $testAccount->delete();
+        } else {
+            // Compte normal : supprimer les conversations privées et leurs messages
+            $privateConversations = $user->conversations()->where('type', 'private')->get();
+            foreach ($privateConversations as $conversation) {
+                $conversation->messages()->delete();
+                $conversation->users()->detach();
+                $conversation->delete();
+            }
+
+            // Supprimer les demandes d'ami (envoyées et reçues)
+            FriendRequest::where('sender_id', $user->id)
+                ->orWhere('receiver_id', $user->id)
+                ->delete();
+
+            // Supprimer les messages dans les channels (global)
+            $user->messages()->delete();
+
+            // Détacher l'utilisateur des channels
+            $user->conversations()->where('type', 'global')->detach();
+
+            // Supprimer les lectures de messages
+            $user->readMessages()->detach();
+
+            // Envoyer l'email de confirmation de suppression
+            Mail::to($user->email)->send(new AccountDeleted($user->username, false));
+        }
+
         if ($user->avatar !== 'default.webp') {
             Storage::disk('public')->delete('users/' . $user->avatar);
         }
+        
         $user->delete();
+        
         return redirect()->route('login')->with('success', 'Compte supprimé avec succès.');
     }
 }

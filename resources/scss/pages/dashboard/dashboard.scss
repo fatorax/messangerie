@@ -379,6 +379,8 @@ nav
             display: flex;
             flex-direction: column;
             gap: 0px;
+            overflow: hidden;
+            max-width: 120px;
 
             h2
             {
@@ -388,6 +390,9 @@ nav
                 margin: 0;
                 font-family: "Roboto", sans-serif;
                 text-decoration: none;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
 
             p
@@ -398,6 +403,9 @@ nav
                 margin: 0;
                 font-family: "Roboto", sans-serif;
                 text-decoration: none;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
             }
         }
 
@@ -419,7 +427,6 @@ nav
                 background: transparent;
                 border: none;
                 color: rgba(248, 250, 252, 1);
-                padding: 8px;
 
                 svg
                 {

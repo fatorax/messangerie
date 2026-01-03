@@ -1,59 +1,267 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 💬 Messangerie
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+[![Laravel](https://img.shields.io/badge/Laravel-12-FF2D20?style=for-the-badge&logo=laravel&logoColor=white)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2+-777BB4?style=for-the-badge&logo=php&logoColor=white)](https://php.net)
+[![Pusher](https://img.shields.io/badge/Pusher-WebSockets-300D4F?style=for-the-badge&logo=pusher&logoColor=white)](https://pusher.com)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
-## About Laravel
+> Application de messagerie instantanée en temps réel développée avec Laravel et Pusher.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+🌐 **Démo en ligne** : [messangerie.fatorax.fr](https://messangerie.fatorax.fr/)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 📸 Aperçu
 
-## Learning Laravel
+<div align="center">
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+<!-- Remplacer par vos screenshots -->
+| Page d'accueil | Interface de chat |
+|:-:|:-:|
+| ![Accueil](screenshots/home.png) | ![Chat](screenshots/chat.png) |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+| Connexion | Panel Admin |
+|:-:|:-:|
+| ![Connexion](screenshots/login.png) | ![Admin](screenshots/admin.png) |
 
-## Laravel Sponsors
+</div>
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+---
 
-### Premium Partners
+## 🎯 Objectif du projet
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Ce projet a été réalisé dans le cadre de ma recherche d'**alternance en développement web**. Il me permet de :
 
-## Contributing
+- 🚀 Me challenger sur des technologies modernes
+- 📚 Approfondir mes connaissances en Laravel et WebSockets
+- 💼 Démontrer mes compétences techniques à travers un projet concret
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
 
-## Code of Conduct
+## ✨ Fonctionnalités
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 🔐 Authentification
+- Inscription avec vérification par email
+- Connexion / Déconnexion sécurisée
+- Récupération de mot de passe
+- Comptes de démonstration (durée de vie : 24h)
 
-## Security Vulnerabilities
+### 💬 Messagerie en temps réel
+- **Channels publics** : groupes de discussion ouverts
+- **Conversations privées** : messagerie entre deux utilisateurs
+- Envoi et suppression de messages instantanés
+- Indicateurs de lecture des messages
+- Mise à jour en temps réel via WebSockets
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 👥 Système d'amis
+- Recherche d'utilisateurs
+- Envoi de demandes d'ami
+- Acceptation / Refus / Annulation des demandes
+- Création automatique de conversation privée à l'acceptation
 
-## License
+### ⚙️ Gestion du profil
+- Modification des informations personnelles
+- Upload d'avatar personnalisé
+- Changement de mot de passe
+- Suppression de compte (avec nettoyage complet des données)
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 🛡️ Panel d'administration
+- Dashboard avec statistiques globales
+- Gestion des utilisateurs (CRUD)
+- Gestion des channels publics
+- Gestion des conversations privées
+- Gestion des messages
+- Recherche, filtrage et tri avancés
+- Confirmation des actions sensibles (SweetAlert2)
+
+---
+
+## 🛠️ Stack technique
+
+### Back-end
+| Technologie | Utilisation |
+|-------------|-------------|
+| **Laravel 12** | Framework PHP principal |
+| **PHP 8.2+** | Langage serveur |
+| **Pusher** | WebSockets temps réel |
+| **MySQL** | Base de données |
+| **Laravel Sanctum** | Authentification API |
+
+### Front-end
+| Technologie | Utilisation |
+|-------------|-------------|
+| **Blade** | Moteur de templates |
+| **SCSS** | Préprocesseur CSS |
+| **Tailwind CSS** | Framework CSS utilitaire |
+| **Laravel Echo** | Client WebSockets |
+| **SweetAlert2** | Modales et alertes |
+| **Vite** | Build tool |
+
+### Outils
+| Outil | Utilisation |
+|-------|-------------|
+| **Pest** | Tests unitaires et fonctionnels |
+| **Laravel Pint** | Linter PHP |
+| **Git** | Versionning |
+
+---
+
+## 📦 Installation
+
+### Prérequis
+- PHP >= 8.2
+- Composer
+- Node.js >= 18
+- MySQL
+- Compte [Pusher](https://pusher.com) (gratuit)
+
+### Étapes
+
+1. **Cloner le repository**
+```bash
+git clone https://github.com/fatorax/messangerie.git
+cd messangerie
+```
+
+2. **Installer les dépendances**
+```bash
+composer install
+npm install
+```
+
+3. **Configuration de l'environnement**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. **Configurer le fichier `.env`**
+```env
+# Base de données
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=messangerie
+DB_USERNAME=root
+DB_PASSWORD=
+
+# Pusher (WebSockets)
+BROADCAST_DRIVER=pusher
+PUSHER_APP_ID=your_app_id
+PUSHER_APP_KEY=your_app_key
+PUSHER_APP_SECRET=your_app_secret
+PUSHER_APP_CLUSTER=eu
+
+# Mail (pour la vérification d'email)
+MAIL_MAILER=smtp
+MAIL_HOST=your_smtp_host
+MAIL_PORT=587
+MAIL_USERNAME=your_username
+MAIL_PASSWORD=your_password
+MAIL_FROM_ADDRESS=noreply@example.com
+```
+
+5. **Créer la base de données et exécuter les migrations**
+```bash
+php artisan migrate
+```
+
+6. **Créer le lien symbolique pour le storage**
+```bash
+php artisan storage:link
+```
+
+7. **Compiler les assets**
+```bash
+npm run build
+```
+
+8. **Lancer l'application**
+```bash
+# Option 1 : Script tout-en-un (serveur + queue + vite)
+composer dev
+
+# Option 2 : Manuellement
+php artisan serve
+php artisan queue:listen
+npm run dev
+```
+
+L'application est accessible sur `http://localhost:8000`
+
+---
+
+## 🧪 Tests
+
+```bash
+# Lancer tous les tests
+composer test
+
+# Ou directement avec Pest
+php artisan test
+```
+
+---
+
+## 📁 Structure du projet
+
+```
+messangerie/
+├── app/
+│   ├── Console/Commands/     # Commandes Artisan (ex: suppression comptes démo)
+│   ├── Events/               # Events WebSocket (MessageSent, etc.)
+│   ├── Http/
+│   │   ├── Controllers/      # Controllers organisés par domaine
+│   │   ├── Middleware/       # Middlewares personnalisés
+│   │   └── Requests/         # Form Requests
+│   ├── Mail/                 # Classes Mailable
+│   └── Models/               # Modèles Eloquent
+├── resources/
+│   ├── js/                   # JavaScript (Echo, etc.)
+│   ├── scss/                 # Styles SCSS
+│   └── views/                # Templates Blade
+├── routes/
+│   ├── web.php               # Routes web
+│   └── channels.php          # Channels WebSocket
+└── ...
+```
+
+---
+
+## 🔮 Évolutions futures
+
+- [ ] Envoi de fichiers et images dans les messages
+- [ ] Réactions aux messages (emojis)
+- [ ] Notifications push
+- [ ] Mode sombre / clair
+- [ ] Application mobile (React Native / Flutter)
+- [ ] Chiffrement de bout en bout
+
+---
+
+## 👨‍💻 À propos de moi
+
+<div align="center">
+
+**Romain Bellini** · *@fatorax*
+
+Développeur web passionné, actuellement à la recherche d'une **alternance** pour continuer à développer mes compétences.
+
+[![Portfolio](https://img.shields.io/badge/Portfolio-cv.fatorax.fr-5865F2?style=for-the-badge&logo=google-chrome&logoColor=white)](https://cv.fatorax.fr/)
+[![GitHub](https://img.shields.io/badge/GitHub-fatorax-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/fatorax)
+
+</div>
+
+---
+
+## 📄 Licence
+
+Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+
+---
+
+<div align="center">
+
+⭐ **Si ce projet vous plaît, n'hésitez pas à lui donner une étoile !** ⭐
+
+</div>

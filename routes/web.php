@@ -94,4 +94,23 @@ Route::group(['middleware' => ['auth', 'verified', 'block.mobile']], function ()
 // ===========================
 Route::group(['middleware' => ['auth', 'verified', 'admin']], function () {
     Route::get('/admin', [AdminController::class, 'index'])->name('admin');
+    
+    // Gestion des utilisateurs
+    Route::get('/admin/users', [AdminController::class, 'users'])->name('admin.users');
+    Route::post('/admin/users/{id}/update', [AdminController::class, 'updateUser'])->name('admin.users.update');
+    Route::post('/admin/users/{id}/delete', [AdminController::class, 'deleteUser'])->name('admin.users.delete');
+    
+    // Gestion des channels publics
+    Route::get('/admin/channels', [AdminController::class, 'channels'])->name('admin.channels');
+    Route::post('/admin/channels/{id}/update', [AdminController::class, 'updateChannel'])->name('admin.channels.update');
+    Route::post('/admin/channels/{id}/delete', [AdminController::class, 'deleteChannel'])->name('admin.channels.delete');
+    
+    // Gestion des conversations privées
+    Route::get('/admin/conversations', [AdminController::class, 'conversations'])->name('admin.conversations');
+    Route::post('/admin/conversations/{id}/delete', [AdminController::class, 'deleteChannel'])->name('admin.conversations.delete');
+    
+    // Gestion des messages
+    Route::get('/admin/messages', [AdminController::class, 'messages'])->name('admin.messages');
+    Route::get('/admin/conversation/{id}/messages', [AdminController::class, 'conversationMessages'])->name('admin.conversation.messages');
+    Route::post('/admin/messages/{id}/delete', [AdminController::class, 'deleteMessage'])->name('admin.messages.delete');
 });

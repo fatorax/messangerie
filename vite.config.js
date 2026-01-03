@@ -20,6 +20,7 @@ export default defineConfig({
                 'resources/scss/pages/register.scss',
                 'resources/scss/pages/dashboard/dashboard.scss',
                 'resources/scss/pages/dashboard/modal/app.scss',
+                'resources/scss/admin.scss',
                 'resources/js/dashboard/CreateChannelModal.js',
                 'resources/js/dashboard/EditChannelModal.js',
                 'resources/js/dashboard/DeleteChannelModal.js',
