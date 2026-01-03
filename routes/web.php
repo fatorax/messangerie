@@ -28,11 +28,13 @@ Route::get('/404', [LegalController::class, 'notFound'])->name('404');
 // ===========================
 // Authentification
 // ===========================
-Route::get('/inscription', [RegisterController::class, 'create'])->name('register');
-Route::post('/inscription', [RegisterController::class, 'store'])->name('register.submit');
-
-Route::get('/connexion', [LoginController::class, 'create'])->name('login');
-Route::post('/connexion', [LoginController::class, 'store'])->name('login.submit');
+Route::middleware('block.mobile')->group(function () {
+    Route::get('/inscription', [RegisterController::class, 'create'])->name('register');
+    Route::post('/inscription', [RegisterController::class, 'store'])->name('register.submit');
+    
+    Route::get('/connexion', [LoginController::class, 'create'])->name('login');
+    Route::post('/connexion', [LoginController::class, 'store'])->name('login.submit');
+});
 
 Route::get('/email/verify/{email}/{hash}', VerifyEmailController::class)->name('verify-email');
 
@@ -45,13 +47,15 @@ Route::post('/reinitialiser-mot-de-passe/{email}/{token}', [ResetPasswordControl
 // ===========================
 // Comptes de démonstration
 // ===========================
-Route::get('/demo', [DemoAccountController::class, 'create'])->name('demo');
-Route::post('/demo/send', [DemoAccountController::class, 'store'])->name('demo.store');
+Route::middleware('block.mobile')->group(function () {
+    Route::get('/demo', [DemoAccountController::class, 'create'])->name('demo');
+    Route::post('/demo/send', [DemoAccountController::class, 'store'])->name('demo.store');
+});
 
 // ===========================
 // Routes authentifiées
 // ===========================
-Route::group(['middleware' => ['auth', 'verified']], function () {
+Route::group(['middleware' => ['auth', 'verified', 'block.mobile']], function () {
     // Déconnexion
     Route::post('/deconnexion', [LoginController::class, 'destroy'])->name('logout');
 

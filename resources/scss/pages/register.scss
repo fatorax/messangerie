@@ -12,6 +12,11 @@ body {
     align-items: center;
     background: linear-gradient(to bottom right, vars.$linear-bg-color-start,  vars.$linear-bg-color-start, vars.$linear-bg-color-end);
     min-height: 100vh;
+
+    @media (max-width: 840px) {
+        background: none!important;
+        min-height: auto;
+    }
 }
 
 .swal2-popup {
@@ -63,6 +68,12 @@ div.container
     justify-content: center;
     height: fit-content;
     width: 100%;
+    
+    @media (max-width: 840px) {
+        background: linear-gradient(to bottom right, vars.$linear-bg-color-start,  vars.$linear-bg-color-start, vars.$linear-bg-color-end);
+        top: 80px;
+        padding-bottom: 32px;
+    }
 
     &.login-container
     {

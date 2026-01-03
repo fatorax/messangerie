@@ -8,6 +8,7 @@ body {
     justify-content: center;
     align-items: center;
     background: vars.$linear-bg-color-start;
+    height: fit-content;
 }
 
 .swal2-popup {
@@ -23,7 +24,7 @@ body {
 }
 
 header {
-    position: absolute;
+    position: relative;
     top: 0;
     display: flex;
     flex-direction: row;
@@ -75,6 +76,10 @@ header {
                     background: rgba(249, 78, 180, .2);
                     color: rgba(249, 78, 180, 1);
                 }
+
+                @media (max-width: 767px) and (pointer: coarse) and (hover: none) {
+                    display: none;
+                }
             }
 
             &.register {
@@ -88,20 +93,23 @@ header {
                     transform: scale(1.1);
                     transition-duration: 1s;
                 }
+
+                @media (max-width: 767px) and (pointer: coarse) and (hover: none) {
+                    display: none;
+                }
             }
         }
     }
 }
 
 main {
-    position: absolute;
-    top: 80px;
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 24px;
-    width: 100vw;
+    width: 100%;
 
     .container {
         display: flex;
@@ -171,6 +179,13 @@ main {
             width: 800px;
             max-width: 90%;
             text-align: center;
+
+            &:last-child
+            {
+                @media (max-width: 767px) and (pointer: coarse) and (hover: none) {
+                    display: none;
+                }
+            }
         }
 
         a.test
@@ -186,6 +201,10 @@ main {
             padding: 12px 24px;
             border-radius: 16px;
             background: linear-gradient(120deg, vars.$linear-text-color-start, vars.$linear-text-color-middle);
+
+            @media (max-width: 767px) and (pointer: coarse) and (hover: none) {
+                display: none;
+            }
         }
 
         .cards {
@@ -297,6 +316,13 @@ footer
 {
     position: fixed;
     bottom: 32px;
+    
+    @media (max-width: 1064px)
+    {
+        position: relative;
+        bottom: 0;
+        margin-bottom: 32px;
+    }
 
     div.rgpd
     {

@@ -17,6 +17,7 @@ export default defineConfig({
             input: [
                 'resources/scss/pages/index.scss',
                 'resources/scss/pages/login.scss',
+                'resources/scss/pages/register.scss',
                 'resources/scss/pages/dashboard/dashboard.scss',
                 'resources/scss/pages/dashboard/modal/app.scss',
                 'resources/js/dashboard/CreateChannelModal.js',
@@ -28,6 +29,8 @@ export default defineConfig({
                 'resources/js/auth/profilePicturePreview.js',
                 'resources/js/dashboard/chatForm.js',
                 'resources/js/app.js',
+                'resources/js/checkPasswordStrength.js',
+                'resources/js/viewPassword.js',
             ],
             refresh: true,
         }),
