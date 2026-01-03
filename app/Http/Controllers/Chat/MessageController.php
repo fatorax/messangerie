@@ -7,6 +7,7 @@ use App\Events\MessageDeleted;
 use App\Events\MessageSent;
 use App\Models\Conversation;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,6 +20,12 @@ class MessageController extends Controller
             'conversation_id' => 'required|integer',
             'content' => 'required|string|max:500',
         ]);
+
+        // Vérifier si l'utilisateur existe
+        $user = User::find(Auth::id());
+        if (!$user) {
+            return redirect()->route('index');
+        }
 
         $message = Message::create([
             'conversation_id' => $request->conversation_id,
