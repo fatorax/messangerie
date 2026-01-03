@@ -2,30 +2,19 @@
 
 use Illuminate\Support\Facades\Route;
 
-// Auth Controllers
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
-
-// Chat Controllers
 use App\Http\Controllers\Chat\ConversationController;
 use App\Http\Controllers\Chat\MessageController;
 use App\Http\Controllers\Chat\FriendRequestController;
-
-// User Controllers
 use App\Http\Controllers\User\SettingsController;
 use App\Http\Controllers\User\PasswordController;
-
-// Pages Controllers
 use App\Http\Controllers\Pages\HomeController;
 use App\Http\Controllers\Pages\LegalController;
-
-// Demo Controllers
 use App\Http\Controllers\Demo\DemoAccountController;
-
-// Admin Controllers
 use App\Http\Controllers\Admin\AdminController;
 
 // ===========================
@@ -85,12 +74,12 @@ Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::post('/friend-request/cancel', [FriendRequestController::class, 'cancel'])->name('friend-request.cancel');
     Route::post('/friend-request/pending', [FriendRequestController::class, 'index'])->name('friend-request.index');
 
-    // Paramètres utilisateur
+    // Paramètres utilisateur - général
     Route::get('/parametres', [SettingsController::class, 'index'])->name('settings');
     Route::post('/parametres', [SettingsController::class, 'update'])->name('settings.update');
     Route::get('/parametres/delete', [SettingsController::class, 'destroy'])->name('settings.destroy');
 
-    // Mot de passe
+    // Paramètres utilisateur - mot de passe
     Route::get('/parametres/mot-de-passe', [PasswordController::class, 'edit'])->name('password.edit');
     Route::post('/parametres/mot-de-passe', [PasswordController::class, 'update'])->name('password.update');
 });
