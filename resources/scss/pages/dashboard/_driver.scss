@@ -114,6 +114,7 @@ $driver-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(7, 182, 213, 0.15)
     transition: all 0.2s ease !important;
     border: none !important;
     outline: none !important;
+    text-shadow: none !important;
     
     &:focus {
         box-shadow: 0 0 0 3px rgba(7, 182, 213, 0.3) !important;
